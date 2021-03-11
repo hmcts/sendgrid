@@ -10,7 +10,7 @@ parameters:
       rg: mgmt-state-store-nonprod-rg
       location: uksouth
       storage_account: dtsmgmtstatestorenonprod
-      container: mgmtstatestorecontainernonprod
+      container: nonprod
 
     - environment: prod
       serviceConnection: dts-management-prod-intsvc
