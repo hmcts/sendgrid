@@ -1,9 +1,9 @@
 terraform {
-  required_version = ">= 0.12.25"
+  required_version = ">= 0.14.8"
   backend "azurerm" {}
 
   required_providers {
-    azurerm = "~> 2.31.1"
+    azurerm = "~> 2.50.0"
     sendgrid = {
       source  = "Trois-Six/sendgrid"
       version = "0.1.6"
