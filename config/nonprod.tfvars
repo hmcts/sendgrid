@@ -1,5 +1,5 @@
 env = "nonprod"
-subusers = [
+accounts = [
     {
         username = "platform-ops-testuser1"
         email = "DTSPlatformOps@HMCTS.NET"

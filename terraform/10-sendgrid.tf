@@ -1,14 +1,14 @@
 data "azurerm_client_config" "current" {}
 
 data "azurerm_key_vault" "kv" {
-  provider = azurerm.api-key-vault
+  provider = azurerm.api_key_vault
 
   name                = "sendgrid${var.env}"
   resource_group_name = "SendGrid-${var.env}"
 }
 
 data "azurerm_key_vault_secret" "api" {
-  provider = azurerm.api-key-vault
+  provider = azurerm.api_key_vault
 
   name         = "platform-operations-api-key"
   key_vault_id = data.azurerm_key_vault.kv.id
@@ -24,7 +24,7 @@ resource "random_password" "password" {
 }
 
 resource "azurerm_key_vault_secret" "subuser" {
-  provider = azurerm.api-key-vault
+  provider = azurerm.api_key_vault
   for_each = { for user in var.subusers : user.username => user }
 
 
@@ -35,7 +35,7 @@ resource "azurerm_key_vault_secret" "subuser" {
 
 
 resource "azurerm_key_vault_secret" "subuser-api-key" {
-  provider = azurerm.api-key-vault
+  provider = azurerm.api_key_vault
   for_each = { for user in var.subusers : user.username => user }
 
   name         = "${each.value.username}-api-key"
