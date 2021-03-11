@@ -37,7 +37,7 @@ stages:
           - task: TerraformInstaller@0
             displayName: Terraform install
             inputs:
-              terraformVersion: ${{ variable.terraformVersion }}
+              terraformVersion: ${{ variables.terraformVersion }}
 
           - task: TerraformCLI@0
             displayName: Terraform initialize
