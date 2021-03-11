@@ -5,10 +5,10 @@ variable "env" {
 
 variable "subusers" {
   description = "SendGrid subuser accounts"
-    type = list(object({
-      username   = string
-      email      = string
-      ips        = list(string)
-      })
-    )
+  type = list(object({
+    username = string
+    email    = string
+    ips      = list(string)
+    })
+  )
 }

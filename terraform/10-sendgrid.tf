@@ -1,25 +1,18 @@
 data "azurerm_client_config" "current" {}
 
-data "azurerm_resource_group" "sendgrid" {
-  name = "Sendgrid-${var.env}"
-}
-
-
 data "azurerm_key_vault" "kv" {
   provider = azurerm.api-key-vault
 
-  name = "sendgrid${var.env}"
+  name                = "sendgrid${var.env}"
   resource_group_name = "SendGrid-${var.env}"
 }
 
 data "azurerm_key_vault_secret" "api" {
   provider = azurerm.api-key-vault
 
-  name = "platform-operations-api-key"
-  key_vault_id = data.azurerm_key_vault.kv.id  
+  name         = "platform-operations-api-key"
+  key_vault_id = data.azurerm_key_vault.kv.id
 }
-
-
 
 resource "random_password" "password" {
   for_each = { for user in var.subusers : user.username => user }
@@ -32,8 +25,8 @@ resource "random_password" "password" {
 
 resource "azurerm_key_vault_secret" "subuser" {
   provider = azurerm.api-key-vault
-  for_each = { for user in var.subusers : user.username => user}
-  
+  for_each = { for user in var.subusers : user.username => user }
+
 
   name         = "${each.value.username}-password"
   value        = random_password.password[each.value.username].result
@@ -43,7 +36,7 @@ resource "azurerm_key_vault_secret" "subuser" {
 
 resource "azurerm_key_vault_secret" "subuser-api-key" {
   provider = azurerm.api-key-vault
-  for_each = { for user in var.subusers : user.username => user}
+  for_each = { for user in var.subusers : user.username => user }
 
   name         = "${each.value.username}-api-key"
   value        = sendgrid_api_key.subuser[each.value.username].api_key
@@ -53,20 +46,20 @@ resource "azurerm_key_vault_secret" "subuser-api-key" {
 
 resource "sendgrid_subuser" "user" {
   provider = sendgrid
-  for_each = { for user in var.subusers : user.username => user}
+  for_each = { for user in var.subusers : user.username => user }
 
   username = each.value.username
-  email = each.value.email
+  email    = each.value.email
   password = random_password.password[each.value.username].result
-  ips = each.value.ips
+  ips      = each.value.ips
 }
 
 resource "sendgrid_api_key" "subuser" {
   provider = sendgrid
-  for_each = { for user in var.subusers : user.username => user}
+  for_each = { for user in var.subusers : user.username => user }
 
-  name = "${each.value.username}-application"
-  scopes = ["mail.send", "sender_verification_eligible"]
+  name                  = "${each.value.username}-application"
+  scopes                = ["mail.send", "sender_verification_eligible"]
   sub_user_on_behalf_of = sendgrid_subuser.user[each.value.username].username
 }
 
