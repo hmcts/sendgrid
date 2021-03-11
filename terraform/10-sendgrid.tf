@@ -1,12 +1,5 @@
 data "azurerm_client_config" "current" {}
 
-/*
-resource "azurerm_resource_group" "rg" {
-  name     = "${"SendGrid-"}${var.env}"
-  location = "uksouth"
-}
-*/
-
 data "azurerm_resource_group" "sendgrid" {
   name = "Sendgrid-${var.env}"
 }
