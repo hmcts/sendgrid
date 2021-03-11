@@ -14,7 +14,7 @@ parameters:
 
     - environment: prod
       serviceConnection: dts-management-prod-intsvc
-      rg: mgmt-state-store-prod
+      rg: mgmt-state-store-prod-rg
       location: uksouth
       storage_account: dtsmgmtstatestoreprod
       container: mgmtstatestorecontainerprod
