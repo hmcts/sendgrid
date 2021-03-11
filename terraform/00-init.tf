@@ -6,7 +6,7 @@ terraform {
     azurerm = "~> 2.31.1"
     sendgrid = {
       source = "Trois-Six/sendgrid"
-      version = "0.1.5"
+      version = "0.1.6"
     }
   }
 }
