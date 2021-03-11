@@ -22,13 +22,12 @@ parameters:
 variables:
   isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
 
-pr:
-- Integration
+trigger:
+  - master
 
 pool:
   name: Azure Pipelines
-  demands: azureps
-  vmImage: 'windows-latest'
+  vmImage: 'ubuntu-latest'
 
 
 stages:
@@ -53,7 +52,7 @@ stages:
               backendAzureRmResourceGroupName: ${{ environment.rg }}
               backendAzureRmResourceGroupLocation: ${{ environment.location }}
               backendAzureRmStorageAccountName: ${{ environment.storage_account }}
-              backendAzureRmStorageAccountSku: Standard_LRS
+              backendAzureRmStorageAccountSku: Standard_ZRS
               backendAzureRmContainerName: ${{ environment.container }}
               backendAzureRmKey: SendGrid-${{ environment.environment }}/terraform.tfstate
 
