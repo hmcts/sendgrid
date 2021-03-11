@@ -2,7 +2,7 @@ env = "nonprod"
 subusers = [
     {
         username = "platform-ops-testuser1"
-        email = "DTSPlatformOperationsTeam@hmcts.net"
+        email = "DTSPlatformOps@HMCTS.NET"
         ips = [ "167.89.74.65" ]
     },
     {
