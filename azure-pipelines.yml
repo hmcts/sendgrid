@@ -20,7 +20,7 @@ variables:
   - name: terraformVersion
     value: 0.14.8
   - name: serviceConnection
-    value: dts-management-{{ environment.environment }}-intsvc
+    value: dts-management-${{ environment.environment }}-intsvc
 
 
 trigger:
