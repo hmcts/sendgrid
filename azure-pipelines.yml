@@ -9,14 +9,14 @@ parameters:
       serviceConnection: dts-management-nonprod-intsvc
       rg: mgmt-state-store-nonprod
       location: uksouth
-      storage_account: mgmtstatestorenonprod
+      storage_account: dtsmgmtstatestorenonprod
       container: mgmtstatestorecontainernonprod
 
     - environment: prod
       serviceConnection: dts-management-prod-intsvc
       rg: mgmt-state-store-prod
       location: uksouth
-      storage_account: mgmtstatestoreprod
+      storage_account: dtsmgmtstatestoreprod
       container: mgmtstatestorecontainerprod
 
 variables:
