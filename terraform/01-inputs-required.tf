@@ -1,14 +1,13 @@
-variable "env" {
+variable "environment" {
   description = "SendGrid Configuration"
   type        = string
 }
 
-variable "subusers" {
+variable "accounts" {
   description = "SendGrid subuser accounts"
-  type = list(object({
-    username = string
-    email    = string
-    ips      = list(string)
+  type   = list(object({
+    name = string
+    ips  = list(string)
     })
   )
 }

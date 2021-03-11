@@ -1,7 +1,4 @@
 parameters:
-  - name: terraformVersion
-    type: string
-    default: "0.13.4"
   - name: sendgridEnvironments
     type: object
     default:
@@ -21,6 +18,7 @@ parameters:
 
 variables:
   isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
+  terraformVersion: 0.14.8
 
 trigger:
   - master
@@ -39,7 +37,7 @@ stages:
           - task: TerraformInstaller@0
             displayName: Terraform install
             inputs:
-              terraformVersion: ${{ parameters.terraformVersion }}
+              terraformVersion: ${{ variable.terraformVersion }}
 
           - task: TerraformCLI@0
             displayName: Terraform initialize
@@ -68,7 +66,7 @@ stages:
               command: plan
               workingDirectory: $(System.DefaultWorkingDirectory)/terraform
               environmentServiceName: ${{ environment.serviceConnection }}
-              commandOptions: -var-file=..\config\${{ environment.environment }}.tfvars
+              commandOptions: -var-file=../config/${{ environment.environment }}.tfvars -var environment=${{ parameters.environment }}
 
 
           - task: TerraformCLI@0
@@ -78,4 +76,4 @@ stages:
               command: apply
               workingDirectory: $(System.DefaultWorkingDirectory)/terraform
               environmentServiceName: ${{ environment.serviceConnection }}
-              commandOptions: --auto-approve -var-file=..\config\${{ environment.environment }}.tfvars
+              commandOptions: --auto-approve -var-file=../config/${{ environment.environment }}.tfvars -var environment=${{ parameters.environment }}
