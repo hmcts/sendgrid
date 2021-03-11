@@ -17,7 +17,7 @@ parameters:
       rg: mgmt-state-store-prod-rg
       location: uksouth
       storage_account: dtsmgmtstatestoreprod
-      container: mgmtstatestorecontainerprod
+      container: prod
 
 variables:
   isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
