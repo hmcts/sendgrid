@@ -7,7 +7,7 @@ parameters:
     default:
     - environment: nonprod
       serviceConnection: dts-management-nonprod-intsvc
-      rg: mgmt-state-store-nonprod
+      rg: mgmt-state-store-nonprod-rg
       location: uksouth
       storage_account: dtsmgmtstatestorenonprod
       container: mgmtstatestorecontainernonprod
