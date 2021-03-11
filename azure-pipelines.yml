@@ -2,38 +2,28 @@ parameters:
   - name: sendgridEnvironments
     type: object
     default:
-    - environment: nonprod
-      rg: mgmt-state-store-nonprod-rg
-      storage_account: dtsmgmtstatestorenonprod
-      container: nonprod
-
-    - environment: prod
-      rg: mgmt-state-store-prod-rg
-      storage_account: dtsmgmtstatestoreprod
-      container: prod
-
-variables:
-  - name: isMain
-    value: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
-  - name: location
-    value: uksouth    
-  - name: terraformVersion
-    value: 0.14.8
-  - name: serviceConnection
-    value: dts-management-${{ environment.environment }}-intsvc
-
+    - nonprod
+    - prod
 
 trigger:
   - master
 
 pool:
-  name: Azure Pipelines
   vmImage: 'ubuntu-latest'
-
 
 stages:
   - ${{ each environment in parameters.sendgridEnvironments }}:
-    - stage: ${{ environment.environment }}
+    - stage: ${{ environment }}
+
+      variables:
+        isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
+        location: uksouth    
+        terraformVersion: 0.14.8
+        serviceConnection: dts-management-${{ environment }}-intsvc
+        resourceGroup: mgmt-state-store-${{ environment }}-rg
+        storageAccount: dtsmgmtstatestore${{ environment }}
+        container: ${{ environment }}     
+
       jobs:
         - job: TestAndPlan
           steps:     
@@ -50,12 +40,12 @@ stages:
               backendType: azurerm
               ensurebackend: true
               backendServiceArm: $(serviceConnection)
-              backendAzureRmResourceGroupName: ${{ environment.rg }}
+              backendAzureRmResourceGroupName: ${{ variables.resourceGroup }}
               backendAzureRmResourceGroupLocation: ${{ variables.location }}
-              backendAzureRmStorageAccountName: ${{ environment.storage_account }}
+              backendAzureRmStorageAccountName: ${{ variables.storageAccount }}
               backendAzureRmStorageAccountSku: Standard_ZRS
-              backendAzureRmContainerName: ${{ environment.container }}
-              backendAzureRmKey: SendGrid-${{ environment.environment }}/terraform.tfstate
+              backendAzureRmContainerName: ${{ variables.container }}
+              backendAzureRmKey: SendGrid-${{ environment }}/terraform.tfstate
 
           - task: TerraformCLI@0
             displayName: Terraform validate
@@ -68,8 +58,8 @@ stages:
             inputs:
               command: plan
               workingDirectory: $(System.DefaultWorkingDirectory)/terraform
-              environmentServiceName: $(serviceConnection)
-              commandOptions: -var-file=../config/${{ environment.environment }}.tfvars -var environment=${{ environment.environment }}
+              environmentServiceName: ${{ variables.serviceConnection }}
+              commandOptions: -var-file=../config/${{ environment }}.tfvars -var environment=${{ environment }}
 
 
           - task: TerraformCLI@0
@@ -78,5 +68,5 @@ stages:
             inputs:
               command: apply
               workingDirectory: $(System.DefaultWorkingDirectory)/terraform
-              environmentServiceName: $(serviceConnection)
-              commandOptions: --auto-approve -var-file=../config/${{ environment.environment }}.tfvars -var environment=${{ environment.environment }}
+              environmentServiceName: ${{ variables.serviceConnection }}
+              commandOptions: --auto-approve -var-file=../config/${{ environment }}.tfvars -var environment=${{ environment }}
