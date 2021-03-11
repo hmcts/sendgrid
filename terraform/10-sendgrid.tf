@@ -13,6 +13,8 @@ data "azurerm_key_vault" "kv" {
 }
 
 data "azurerm_key_vault_secret" "api" {
+  provider = azurerm.api-key-vault
+
   name = "platform-operations-api-key"
   key_vault_id = data.azurerm_key_vault.kv.id  
 }
@@ -29,7 +31,9 @@ resource "random_password" "password" {
 }
 
 resource "azurerm_key_vault_secret" "subuser" {
+  provider = azurerm.api-key-vault
   for_each = { for user in var.subusers : user.username => user}
+  
 
   name         = "${each.value.username}-password"
   value        = random_password.password[each.value.username].result
@@ -38,6 +42,7 @@ resource "azurerm_key_vault_secret" "subuser" {
 
 
 resource "azurerm_key_vault_secret" "subuser-api-key" {
+  provider = azurerm.api-key-vault
   for_each = { for user in var.subusers : user.username => user}
 
   name         = "${each.value.username}-api-key"
