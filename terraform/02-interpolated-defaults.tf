@@ -1,5 +1,5 @@
 locals {
-  sendgrid-key-vault = {
+  sendgrid_key_vault = {
     nonprod = {
       subscription = "1c4f0704-a29e-403d-b719-b90c34ef14c9"
     }
