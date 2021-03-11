@@ -32,7 +32,7 @@ pool:
 
 
 stages:
-
+  - ${{ each environment in parameters.sendgridEnvironments }}:
     - stage: ${{ environment.environment }}
       jobs:
         - job: TestAndPlan
