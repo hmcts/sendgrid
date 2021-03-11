@@ -39,7 +39,7 @@ stages:
               workingDirectory: $(System.DefaultWorkingDirectory)/terraform
               backendType: azurerm
               ensurebackend: true
-              backendServiceArm: $(serviceConnection)
+              backendServiceArm: ${{ variables.serviceConnection }}
               backendAzureRmResourceGroupName: ${{ variables.resourceGroup }}
               backendAzureRmResourceGroupLocation: ${{ variables.location }}
               backendAzureRmStorageAccountName: ${{ variables.storageAccount }}
