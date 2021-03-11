@@ -6,14 +6,14 @@ parameters:
     type: object
     default:
     - environment: nonprod
-      serviceConnection: dcd-management-nonprod-intsvc
+      serviceConnection: dts-management-nonprod-intsvc
       rg: mgmt-state-store-nonprod
       location: uksouth
       storage_account: mgmtstatestorenonprod
       container: mgmtstatestorecontainernonprod
 
     - environment: prod
-      serviceConnection: dcd-management-prod-intsvc
+      serviceConnection: dts-management-prod-intsvc
       rg: mgmt-state-store-prod
       location: uksouth
       storage_account: mgmtstatestoreprod
