@@ -3,13 +3,11 @@ parameters:
     type: object
     default:
     - environment: nonprod
-      serviceConnection: dts-management-nonprod-intsvc
       rg: mgmt-state-store-nonprod-rg
       storage_account: dtsmgmtstatestorenonprod
       container: nonprod
 
     - environment: prod
-      serviceConnection: dts-management-prod-intsvc
       rg: mgmt-state-store-prod-rg
       storage_account: dtsmgmtstatestoreprod
       container: prod
@@ -21,6 +19,8 @@ variables:
     value: uksouth    
   - name: terraformVersion
     value: 0.14.8
+  - name: serviceConnection
+    value: dts-management-{{ environment.environment }}-intsvc
 
 
 trigger:
@@ -49,7 +49,7 @@ stages:
               workingDirectory: $(System.DefaultWorkingDirectory)/terraform
               backendType: azurerm
               ensurebackend: true
-              backendServiceArm: ${{ environment.serviceConnection }}
+              backendServiceArm: $(serviceConnection)
               backendAzureRmResourceGroupName: ${{ environment.rg }}
               backendAzureRmResourceGroupLocation: ${{ variables.location }}
               backendAzureRmStorageAccountName: ${{ environment.storage_account }}
@@ -68,7 +68,7 @@ stages:
             inputs:
               command: plan
               workingDirectory: $(System.DefaultWorkingDirectory)/terraform
-              environmentServiceName: ${{ environment.serviceConnection }}
+              environmentServiceName: $(serviceConnection)
               commandOptions: -var-file=../config/${{ environment.environment }}.tfvars -var environment=${{ environment.environment }}
 
 
@@ -78,5 +78,5 @@ stages:
             inputs:
               command: apply
               workingDirectory: $(System.DefaultWorkingDirectory)/terraform
-              environmentServiceName: ${{ environment.serviceConnection }}
+              environmentServiceName: $(serviceConnection)
               commandOptions: --auto-approve -var-file=../config/${{ environment.environment }}.tfvars -var environment=${{ environment.environment }}
