@@ -28,7 +28,7 @@ resource "azurerm_key_vault_secret" "subuser" {
   for_each = { for user in var.accounts : user.name => user }
 
 
-  name         = "${each.value.name}-password"
+  name         = "hmcst-${each.value.name}-password"
   value        = random_password.password[each.value.name].result
   key_vault_id = data.azurerm_key_vault.kv.id
 }
