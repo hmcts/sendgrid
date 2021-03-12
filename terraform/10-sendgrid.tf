@@ -28,7 +28,7 @@ resource "azurerm_key_vault_secret" "subuser" {
   for_each = { for user in var.accounts : user.name => user }
 
 
-  name         = "${each.value.name}-password"
+  name         = "hmcts-${each.value.name}-password"
   value        = random_password.password[each.value.name].result
   key_vault_id = data.azurerm_key_vault.kv.id
 }
@@ -63,4 +63,3 @@ resource "sendgrid_api_key" "subuser" {
   scopes                = ["mail.send", "sender_verification_eligible"]
   sub_user_on_behalf_of = sendgrid_subuser.user[each.value.name].username
 }
-
