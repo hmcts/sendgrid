@@ -62,7 +62,9 @@ If successful then DMARC is all setup.
 
 SendGrid requires an API key for sending emails through it.
 
-An API key is automatically created same time as the account and stored in the SendGrid Key Vault.  Key has restricted access with 'Mail Send' permission allowed.
+An API key is automatically created for you when the account is created and stored in the SendGrid Key Vault. The key has restricted access with 'Mail Send' permission allowed.
+
+The API key name format is `hmcts-<account-name>-api-key`
 
 
 ### Getting the key from the application
