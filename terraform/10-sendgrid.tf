@@ -51,8 +51,8 @@ resource "sendgrid_subuser" "user" {
   username = "hmcts-${each.value.name}"
   email    = "DTSPlatformOps@HMCTS.NET"
   password = random_password.password[each.value.name].result
-  ips      = length(each.value.ips) == 0 ? local.sendgrid_config[var.environment].ips : each.value.ips 
-  
+  ips      = length(each.value.ips) == 0 ? local.sendgrid_config[var.environment].ips : each.value.ips
+
 }
 
 resource "sendgrid_api_key" "subuser" {
