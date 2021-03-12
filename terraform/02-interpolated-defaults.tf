@@ -12,14 +12,5 @@ locals {
         "167.89.74.8"
       ]
     }
-    default = {
-      ips = []
-    }
-  }
-}
-
-locals {
-  accounts = { for key, value in var.accounts :
-    key => merge(local.sendgrid_config.default, value)
   }
 }
