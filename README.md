@@ -1,6 +1,6 @@
 # Azure SendGrid
 
-This repository provisions SendGrids accounts through the [Azure marketplace](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/sendgrid.sendgrid).
+This repository provisions SendGrid accounts through the [Azure marketplace](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/sendgrid.sendgrid).
 
 ## Setting up a new account
 
@@ -39,7 +39,7 @@ e.g.
 
 ### Setup in SendGrid portal
 
-1. Log in at https://app.sendgrid.com. Username is "hmcts-<name>". Retrieve password from vault.
+1. Log in at https://app.sendgrid.com. Username is "hmcts-\<name-specified-in-configuration\>". Retrieve password from vault.
 2. Click 'Authenticate your domain'
 2. Select 'Other Host (Not listed)
 3. Type 'Azure'
