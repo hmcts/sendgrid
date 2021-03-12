@@ -1,6 +1,6 @@
 # Azure SendGrid
 
-This repository provisions SendGrid accounts through the [Azure marketplace](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/sendgrid.sendgrid).
+This repository provisions SendGrid sub user accounts in our manually created SendGrid accounts, 'sendgridnonprod' and 'sendgridprod', provisioned through the [Azure marketplace](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/sendgrid.sendgrid).
 
 ## Setting up a new account
 
