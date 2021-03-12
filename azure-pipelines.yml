@@ -5,6 +5,11 @@ parameters:
     - nonprod
     - prod
 
+variables:
+  isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
+  location: uksouth    
+  terraformVersion: 0.14.8
+
 trigger:
   - master
 
@@ -16,16 +21,13 @@ stages:
     - stage: ${{ environment }}
 
       variables:
-        isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
-        location: uksouth    
-        terraformVersion: 0.14.8
         serviceConnection: dts-management-${{ environment }}-intsvc
         resourceGroup: mgmt-state-store-${{ environment }}-rg
         storageAccount: dtsmgmtstatestore${{ environment }}
         container: ${{ environment }}     
 
       jobs:
-        - job: TestAndPlan
+        - job: PlanAndApply
           steps:     
           - task: TerraformInstaller@0
             displayName: Terraform install
