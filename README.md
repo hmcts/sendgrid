@@ -9,7 +9,7 @@ Each team can create a non-production and a production account.  Accounts are cr
 You can create new accounts by updating the configuration in 
 [nonprod.tfvars](config/nonprod.tfvars) and [prod.tfvars](config/prod.tfvars)
 
-Accounts are created with an 'hmcts-' suffix appended to avoid name clashes.
+Accounts are created with an 'hmcts-' prefix appended to avoid name clashes.
 
 ### Accounts default
 
