@@ -68,6 +68,3 @@ An API key is automatically created same time as the account and stored in the S
 ### Getting the key from the application
 
 The API key should be read from Key Vault via terraform.
-
-See example [SSCS pull request](https://github.com/hmcts/sscs-evidence-share/pull/710),
-note a mistake was made initially and the password was used instead of the API key, corrected in [PR#713](https://github.com/hmcts/sscs-evidence-share/pull/713).
