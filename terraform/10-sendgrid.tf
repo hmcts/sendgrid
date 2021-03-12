@@ -38,7 +38,7 @@ resource "azurerm_key_vault_secret" "subuser-api-key" {
   provider = azurerm.api_key_vault
   for_each = { for user in var.accounts : user.name => user }
 
-  name         = "${each.value.name}-api-key"
+  name         = "hmcts-${each.value.name}-api-key"
   value        = sendgrid_api_key.subuser[each.value.name].api_key
   key_vault_id = data.azurerm_key_vault.kv.id
 }
