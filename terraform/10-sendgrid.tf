@@ -48,7 +48,7 @@ resource "sendgrid_subuser" "user" {
   provider = sendgrid
   for_each = { for user in var.accounts : user.name => user }
 
-  username = "hmcts-${each.value.name}"
+  username = "hmcts-${each.value.name}-${var.environment}"
   email    = "DTSPlatformOps@HMCTS.NET"
   password = random_password.password[each.value.name].result
   ips      = lookup(each.value, "ips", local.sendgrid_config[var.environment].ips)
