@@ -1,1 +1,3 @@
-accounts = []
+accounts = [
+    { name = "divorce-prod")
+]
