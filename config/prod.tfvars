@@ -1,3 +1,3 @@
 accounts = [
-    { name = "divorce-prod" }
-]
+    { name = "divorce" }
+]   
