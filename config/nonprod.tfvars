@@ -1,4 +1,3 @@
 accounts = [
-    { name = "divorce" },
-    { name = "demo-subuser"}
+    { name = "divorce" }
 ]
