@@ -1,4 +1,5 @@
 accounts = [
     { name = "divorce" },
-    { name = "damages" }
+    { name = "damages" },
+    { name = "payment" }
 ]   
