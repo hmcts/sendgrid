@@ -5,5 +5,6 @@ accounts = [
     { name = "payment" },
     { name = "civil" },
     { name = "employment-tribunals" },
-    { name = "reference-data" }
+    { name = "reference-data" },
+    { name = "access-management" }
 ]
