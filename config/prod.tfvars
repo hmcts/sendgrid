@@ -6,5 +6,7 @@ accounts = [
     { name = "employment-tribunals" },
     { name = "reference-data" },
     { name = "access-management" },
-    { name = "db-reporting" }
+    { name = "db-reporting" },
+    { name = "private-law" }
+    
 ]
