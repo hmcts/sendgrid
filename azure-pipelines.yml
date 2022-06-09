@@ -8,7 +8,7 @@ parameters:
 variables:
   isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
   location: uksouth    
-  terraformVersion: 0.14.8
+  terraformVersion: 1.2.2
 
 trigger:
   - master
