@@ -5,8 +5,8 @@ terraform {
   required_providers {
     azurerm = "~> 2.50.0"
     sendgrid = {
-      source  = "Trois-Six/sendgrid"
-      version = "0.2.1"
+      source  = "yinzara/sendgrid"
+      version = "0.2.0"
     }
   }
 }
