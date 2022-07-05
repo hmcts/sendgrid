@@ -62,7 +62,7 @@ stages:
               workingDirectory: $(System.DefaultWorkingDirectory)/terraform
               environmentServiceName: ${{ variables.serviceConnection }}
               commandOptions: -var-file=../config/${{ environment }}.tfvars -var environment=${{ environment }}
-
+              publishPlanResults: $(System.StageDisplayName)
 
           - task: TerraformCLI@0
             displayName: Terraform apply
