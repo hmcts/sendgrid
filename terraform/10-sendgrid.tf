@@ -60,6 +60,6 @@ resource "sendgrid_api_key" "subuser" {
   for_each = { for user in var.accounts : user.name => user }
 
   name                  = "${each.value.name}-application"
-  scopes                = ["mail.send"]
+  scopes                = "${each.value.scopes}"
   sub_user_on_behalf_of = sendgrid_subuser.user[each.value.name].username
 }
