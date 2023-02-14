@@ -10,3 +10,8 @@ accounts = [
     { name = "private-law" }
     
 ]
+
+domains = [
+    { name = "mail.moneyclaims.service.gov.uk" },
+    { name = "mail-prl.childarrangement-familyinjunction.service.gov.uk" }
+]

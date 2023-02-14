@@ -40,13 +40,7 @@ e.g.
 ### Setup in SendGrid portal
 
 1. Log in at https://app.sendgrid.com. Username is "hmcts-\<name-specified-in-configuration\>". Retrieve password from vault.
-2. Click 'Authenticate your domain'
-2. Select 'Other Host (Not listed)
-3. Type 'Azure'
-4. brand links: normally we choose no (the default)
-5. click 'Next'
-6. enter the from domain, e.g. mail-sscs-nonprod.platform.hmcts.net
-7. click 'Next'
+2. Browse to Sender Authentication under Settings
 
 You will now be on page that gives you DNS records that need to be added to the public DNS zone.
 
