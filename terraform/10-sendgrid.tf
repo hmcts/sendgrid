@@ -52,15 +52,14 @@ resource "sendgrid_subuser" "user" {
   email    = "DTSPlatformOps@HMCTS.NET"
   password = random_password.password[each.value.name].result
   ips      = lookup(each.value, "ips", local.sendgrid_config[var.environment].ips)
-
 }
 
 resource "sendgrid_api_key" "subuser" {
   provider = sendgrid
   for_each = { for user in var.accounts : user.name => user }
 
-  name                  = "${each.value.name}-application"
-  scopes                = ["mail.send", "2fa_required", "sender_verification_eligible"]
+  name   = "${each.value.name}-application"
+  scopes = ["mail.send", "2fa_required", "sender_verification_eligible"]
 }
 
 resource "sendgrid_domain_authentication" "domain-authenticate" {
