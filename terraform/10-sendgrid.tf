@@ -59,7 +59,7 @@ resource "sendgrid_api_key" "subuser" {
   for_each = { for user in var.accounts : user.name => user }
 
   name   = "${each.value.name}-application"
-  scopes = ["mail.send", "2fa_required", "sender_verification_eligible"]
+  scopes = ["2fa_required", "mail.send", "sender_verification_eligible"]
 }
 
 resource "sendgrid_domain_authentication" "domain-authenticate" {
