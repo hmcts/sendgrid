@@ -31,7 +31,6 @@ resource "azurerm_key_vault_secret" "subuser" {
   name         = "hmcts-${each.value.name}-password"
   value        = random_password.password[each.value.name].result
   key_vault_id = data.azurerm_key_vault.kv.id
-  content_type = "secret"
 }
 
 
@@ -42,7 +41,6 @@ resource "azurerm_key_vault_secret" "subuser-api-key" {
   name         = "hmcts-${each.value.name}-api-key"
   value        = sendgrid_api_key.subuser[each.value.name].api_key
   key_vault_id = data.azurerm_key_vault.kv.id
-  content_type = "secret"
 }
 
 
