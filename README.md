@@ -39,12 +39,10 @@ e.g.
 
 ### Setup in SendGrid portal
 
-1. Login to Azure Portal
-2. Search for SendGrid-nonprod or SendGrid-prod resource group
-3. Select the SaaS resource and then click on the 'Open SaaS Account on publisher’s site' on overview page
-4. Now you should be logged in to SendGrid
-5. Browse to Settings --> Sender Authentication on the left side of the menu
-6. Click on the domain in question 
+1. Log in at https://app.sendgrid.com. Username is "hmcts-\<name-specified-in-configuration\>". Retrieve password from vault.
+2. Browse to Settings --> Sender Authentication on the left side of the menu
+3. Click on the domain in question
+
 
 You will now be on page that gives you DNS records that need to be added to the public DNS zone.
 
