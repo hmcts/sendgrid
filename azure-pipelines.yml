@@ -59,7 +59,7 @@ stages:
             displayName: Terraform plan
             inputs:
               command: plan
-              workingDirectory: $(System.DefaultWorkingDirectory)/terraform
+              workingDirectory: $(System.DefaultWorkingDirectory)/terraform/${{ environment }}
               environmentServiceName: ${{ variables.serviceConnection }}
               commandOptions: -var environment=${{ environment }}
               publishPlanResults: $(System.StageDisplayName)
@@ -69,6 +69,6 @@ stages:
             condition: and(succeeded(), eq(variables.isMain, true))
             inputs:
               command: apply
-              workingDirectory: $(System.DefaultWorkingDirectory)/terraform
+              workingDirectory: $(System.DefaultWorkingDirectory)/terraform/${{ environment }}
               environmentServiceName: ${{ variables.serviceConnection }}
               commandOptions: --auto-approve -var environment=${{ environment }}
