@@ -38,7 +38,7 @@ stages:
             displayName: Terraform initialize
             inputs:
               command: init
-              workingDirectory: $(System.DefaultWorkingDirectory)/terraform
+              workingDirectory: $(System.DefaultWorkingDirectory)/terraform/${{ environment }}
               backendType: azurerm
               ensurebackend: true
               backendServiceArm: ${{ variables.serviceConnection }}
