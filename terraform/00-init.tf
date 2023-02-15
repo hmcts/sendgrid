@@ -4,6 +4,7 @@ terraform {
 
   required_providers {
     azurerm = "~> 3.11.0"
+    
     sendgrid = {
       source  = "anna-money/sendgrid"
       version = "1.0.4"
@@ -23,12 +24,12 @@ provider "azurerm" {
 }
 
 provider "sendgrid" {
+  alias  = "sendgrid"
   api_key = data.azurerm_key_vault_secret.api.value
 }
 
-provider sendgrid {
-  for_each = { for user in var.accounts : user.name => user }
+provider "sendgrid" {
   alias  = "subuser"
   api_key = data.azurerm_key_vault_secret.api.value
-  subuser = sendgrid_subuser.user[each.key].username
+  subuser = "test"
 }

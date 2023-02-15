@@ -1,17 +1,20 @@
 accounts = [
-    { name = "divorce" },
-    { name = "damages" },
-    { name = "payment" },
-    { name = "civil" },
-    { name = "employment-tribunals" },
-    { name = "reference-data" },
-    { name = "access-management" },
-    { name = "db-reporting" },
-    { name = "private-law" }
-    
-]
-
-domains = [
-    { name = "mail.moneyclaims.service.gov.uk" },
-    { name = "mail-prl.childarrangement-familyinjunction.service.gov.uk" }
+    { name = "divorce"
+      domain = "mail-sscs-nonprod.platform.hmcts.net" },
+    { name = "damages"
+      domain = "mail-sscs-nonprod.platform.hmcts.net" },
+    { name = "payment"
+      domain = "mail-sscs-nonprod.platform.hmcts.net" },
+    { name = "civil"
+      domain = "mail-sscs-nonprod.platform.hmcts.net" },
+    { name = "employment-tribunals"
+      domain = "mail-sscs-nonprod.platform.hmcts.net" },
+    { name = "reference-data"
+      domain = "mail-sscs-nonprod.platform.hmcts.net" },
+    { name = "access-management"
+      domain = "mail-sscs-nonprod.platform.hmcts.net" },
+    { name = "db-reporting"
+      domain = "mail-sscs-nonprod.platform.hmcts.net" },
+    { name = "private-law"
+      domain = "mail-sscs-nonprod.platform.hmcts.net" }   
 ]

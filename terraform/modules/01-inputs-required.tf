@@ -2,10 +2,10 @@ variable "environment" {
   description = "SendGrid Configuration"
 }
 
-variable "accounts" {
-  description = "SendGrid subuser accounts"
+variable "account" {
+  description = "SendGrid subuser account"
 }
 
-variable "domains" {
+variable "domain" {
   description = "Domain being authenticated"
 }
