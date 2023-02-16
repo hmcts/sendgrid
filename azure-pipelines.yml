@@ -38,7 +38,7 @@ stages:
             displayName: Terraform initialize
             inputs:
               command: init
-              workingDirectory: $(System.DefaultWorkingDirectory)/terraform/${{ environment }}
+              workingDirectory: $(System.DefaultWorkingDirectory)/terraform
               backendType: azurerm
               ensurebackend: true
               backendServiceArm: ${{ variables.serviceConnection }}
@@ -53,13 +53,13 @@ stages:
             displayName: Terraform validate
             inputs:
               command: validate
-              workingDirectory: $(System.DefaultWorkingDirectory)/terraform/${{ environment }}
+              workingDirectory: $(System.DefaultWorkingDirectory)/terraform
 
           - task: TerraformCLI@0
             displayName: Terraform plan
             inputs:
               command: plan
-              workingDirectory: $(System.DefaultWorkingDirectory)/terraform/${{ environment }}
+              workingDirectory: $(System.DefaultWorkingDirectory)/terraform
               environmentServiceName: ${{ variables.serviceConnection }}
               commandOptions: -var environment=${{ environment }}
               publishPlanResults: $(System.StageDisplayName)
@@ -69,6 +69,6 @@ stages:
             condition: and(succeeded(), eq(variables.isMain, true))
             inputs:
               command: apply
-              workingDirectory: $(System.DefaultWorkingDirectory)/terraform/${{ environment }}
+              workingDirectory: $(System.DefaultWorkingDirectory)/terraform
               environmentServiceName: ${{ variables.serviceConnection }}
               commandOptions: --auto-approve -var environment=${{ environment }}
