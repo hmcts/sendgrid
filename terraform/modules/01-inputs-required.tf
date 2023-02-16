@@ -6,6 +6,6 @@ variable "account" {
   description = "SendGrid subuser account"
 }
 
-variable "domain" {
-  description = "Domain being authenticated"
+variable "domains" {
+  description = "Domains being authenticated"
 }

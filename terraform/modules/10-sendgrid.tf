@@ -56,8 +56,9 @@ resource "sendgrid_api_key" "subuser" {
 }
 
 resource "sendgrid_domain_authentication" "domain-authenticate" {
+  for_each            = toset(var.domains)
   provider           = sendgrid.subuser
-  domain             = var.domain
+  domain             = each.key
   is_default         = true
   automatic_security = false
 }
