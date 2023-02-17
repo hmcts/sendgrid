@@ -1,6 +1,4 @@
 output "dns_records" {
-  #   value = sendgrid_domain_authentication.domain-authenticate.dns[*]
-
   value = {
     for n, record in toset(var.domains) :
     "${n}" => {
