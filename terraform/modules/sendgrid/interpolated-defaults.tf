@@ -14,12 +14,12 @@ locals {
     }
   }
 
-  dns_records = flatten([
-    for d in toset(var.domains) : [
-      for record in sendgrid_domain_authentication.domain-authenticate[d].dns : {
-        domain = d
-        name   = record.host
-        record = record.data
-      }
-  ]])
+  # dns_records = flatten([
+  #   for d in toset(var.domains) : [
+  #     for record in sendgrid_domain_authentication.domain-authenticate[d].dns : {
+  #       domain = d
+  #       name   = record.host
+  #       record = record.data
+  #     }
+  # ]])
 }

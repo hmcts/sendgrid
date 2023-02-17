@@ -1,14 +1,3 @@
-variable "environment" {
-  description = "SendGrid Configuration"
-}
-
-variable "account" {
-  description = "SendGrid subuser account"
-}
-
-variable "domains" {
-  description = "Domains being authenticated"
-}
 
 variable "dns_resource_group" {
   type        = string
@@ -20,4 +9,8 @@ variable "zone_name" {
   type        = string
   description = "The zone name for the CNAME Record"
   default     = "platform.hmcts.net"
+}
+
+variable "dns_records" {
+  description = "This are the DNS record exported from the sendgrid"
 }
