@@ -8,7 +8,6 @@ variable "dns_resource_group" {
 variable "zone_name" {
   type        = string
   description = "The zone name for the CNAME Record"
-  default     = "platform.hmcts.net"
 }
 
 variable "dns_records" {

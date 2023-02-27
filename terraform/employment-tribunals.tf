@@ -3,18 +3,18 @@ locals {
   et_prod_domains     = ["employmenttribunals.service.gov.uk"]
 }
 
-module "employment-tribunals" {
+module "employment_tribunals" {
   source      = "./modules/sendgrid"
   environment = var.environment
   account     = "employment-tribunals"
   domains     = var.environment == "prod" ? local.et_prod_domains : local.et_non_prod_domains
 }
 
-module "employment-tribunals-dns" {
+module "employment_tribunals_dns" {
   source      = "./modules/azure_dns"
-  dns_records = module.access-management.dns_records
+  dns_records = module.employment_tribunals.dns_records
   zone_name   = "tribunalsdecisions.service.gov.uk"
   depends_on = [
-    module.employment-tribunals
+    module.employment_tribunals
   ]
 }

@@ -1,18 +1,19 @@
 locals {
-  dm_non_prod_domains = ["mail-damages-nonprod.platform.hmcts.net"]
-  dm_prod_domains     = ["mail-damages.platform.hmcts.net"]
+  damages_non_prod_domains = ["mail-damages-nonprod.platform.hmcts.net"]
+  damages_prod_domains     = ["mail-damages.platform.hmcts.net"]
 }
 
 module "damages" {
   source      = "./modules/sendgrid"
   environment = var.environment
   account     = "damages"
-  domains     = var.environment == "prod" ? local.dm_prod_domains : local.dm_non_prod_domains
+  domains     = var.environment == "prod" ? local.damages_prod_domains : local.damages_non_prod_domains
 }
 
 module "damages-dns" {
   source      = "./modules/azure_dns"
-  dns_records = module.access-management.dns_records
+  dns_records = module.damages.dns_records
+  zone_name     = "platform.hmcts.net"
   depends_on = [
     module.damages
   ]

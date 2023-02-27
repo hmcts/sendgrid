@@ -3,17 +3,18 @@ locals {
   rd_prod_domains     = ["mail-rd.platform.hmcts.net"]
 }
 
-module "reference-data" {
+module "reference_data" {
   source      = "./modules/sendgrid"
   environment = var.environment
   account     = "reference-data"
   domains     = var.environment == "prod" ? local.rd_prod_domains : local.rd_non_prod_domains
 }
 
-module "reference-data-dns" {
+module "reference_data_dns" {
   source      = "./modules/azure_dns"
-  dns_records = module.access-management.dns_records
+  dns_records = module.reference_data.dns_records
+  zone_name     = "platform.hmcts.net"
   depends_on = [
-    module.reference-data
+    module.reference_data
   ]
 }
