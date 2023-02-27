@@ -13,8 +13,5 @@ module "private_law" {
 module "private_law_dns" {
   source      = "./modules/azure_dns"
   dns_records = module.private_law.dns_records
-  zone_name     = "platform.hmcts.net"
-  depends_on = [
-    module.private_law
-  ]
+  zone_name   = "platform.hmcts.net"
 }

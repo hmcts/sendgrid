@@ -13,8 +13,5 @@ module "reference_data" {
 module "reference_data_dns" {
   source      = "./modules/azure_dns"
   dns_records = module.reference_data.dns_records
-  zone_name     = "platform.hmcts.net"
-  depends_on = [
-    module.reference_data
-  ]
+  zone_name   = "platform.hmcts.net"
 }

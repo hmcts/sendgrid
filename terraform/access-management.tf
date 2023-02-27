@@ -13,8 +13,5 @@ module "access_management" {
 module "access_management_dns" {
   source      = "./modules/azure_dns"
   dns_records = module.access_management.dns_records
-  zone_name     = "platform.hmcts.net"
-  depends_on = [
-    module.access_management
-  ]
+  zone_name   = "platform.hmcts.net"
 }

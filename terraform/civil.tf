@@ -13,8 +13,5 @@ module "civil" {
 module "civil-dns" {
   source      = "./modules/azure_dns"
   dns_records = module.civil.dns_records
-  zone_name     = "platform.hmcts.net"
-  depends_on = [
-    module.civil
-  ]
+  zone_name   = "platform.hmcts.net"
 }

@@ -13,8 +13,5 @@ module "cmc" {
 module "cmc_dns" {
   source      = "./modules/azure_dns"
   dns_records = module.cmc.dns_records
-  zone_name     = "platform.hmcts.net"
-  depends_on = [
-    module.cmc
-  ]
+  zone_name   = "platform.hmcts.net"
 }

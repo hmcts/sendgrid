@@ -1,6 +1,6 @@
 locals {
-   db_non_prod_domains = ["mail-db-reporting-nonprod.platform.hmcts.net"]
-   db_prod_domains     = ["mail-db-reporting-prod.platform.hmcts.net"]
+  db_non_prod_domains = ["mail-db-reporting-nonprod.platform.hmcts.net"]
+  db_prod_domains     = ["mail-db-reporting-prod.platform.hmcts.net"]
 }
 
 module "db_reporting" {
@@ -13,8 +13,5 @@ module "db_reporting" {
 module "db_reporting_dns" {
   source      = "./modules/azure_dns"
   dns_records = module.db_reporting.dns_records
-  zone_name     = "platform.hmcts.net"
-  depends_on = [
-    module.db_reporting
-  ]
+  zone_name   = "platform.hmcts.net"
 }

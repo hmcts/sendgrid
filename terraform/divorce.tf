@@ -13,8 +13,5 @@ module "divorce" {
 module "divorce_dns" {
   source      = "./modules/azure_dns"
   dns_records = module.divorce.dns_records
-  zone_name     = "platform.hmcts.net"
-  depends_on = [
-    module.divorce
-  ]
+  zone_name   = "platform.hmcts.net"
 }

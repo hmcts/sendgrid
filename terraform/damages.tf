@@ -13,8 +13,5 @@ module "damages" {
 module "damages-dns" {
   source      = "./modules/azure_dns"
   dns_records = module.damages.dns_records
-  zone_name     = "platform.hmcts.net"
-  depends_on = [
-    module.damages
-  ]
+  zone_name   = "platform.hmcts.net"
 }

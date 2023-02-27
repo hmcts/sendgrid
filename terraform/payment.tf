@@ -13,8 +13,5 @@ module "payment" {
 module "payment_dns" {
   source      = "./modules/azure_dns"
   dns_records = module.payment.dns_records
-  zone_name     = "platform.hmcts.net"
-  depends_on = [
-    module.payment
-  ]
+  zone_name   = "platform.hmcts.net"
 }
