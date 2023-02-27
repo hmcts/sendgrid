@@ -22,12 +22,12 @@ moved {
 }
 
 moved {
-  from = azurerm_key_vault_secret.subuser-api-key["access-management"] 
+  from = azurerm_key_vault_secret.subuser-api-key["access-management"]
   to   = module.access_management.azurerm_key_vault_secret.subuser-api-key
 }
 
 moved {
-  from = random_password.password["access-management"] 
+  from = random_password.password["access-management"]
   to   = module.access_management.random_password.password
 }
 
@@ -35,7 +35,6 @@ moved {
   from = sendgrid_api_key.subuser["access-management"]
   to   = module.access_management.sendgrid_api_key.subuser
 }
-
 
 moved {
   from = sendgrid_subuser.user["access-management"]

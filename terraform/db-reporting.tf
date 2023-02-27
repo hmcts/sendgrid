@@ -15,3 +15,28 @@ module "db_reporting_dns" {
   dns_records = module.db_reporting.dns_records
   zone_name   = "platform.hmcts.net"
 }
+
+moved {
+  from = azurerm_key_vault_secret.subuser["db-reporting"]
+  to   = module.db_reporting.azurerm_key_vault_secret.subuser
+}
+
+moved {
+  from = azurerm_key_vault_secret.subuser-api-key["db-reporting"]
+  to   = module.db_reporting.azurerm_key_vault_secret.subuser-api-key
+}
+
+moved {
+  from = random_password.password["db-reporting"]
+  to   = module.db_reporting.random_password.password
+}
+
+moved {
+  from = sendgrid_api_key.subuser["db-reporting"]
+  to   = module.db_reporting.sendgrid_api_key.subuser
+}
+
+moved {
+  from = sendgrid_subuser.user["db-reporting"]
+  to   = module.db_reporting.sendgrid_subuser.user
+}
