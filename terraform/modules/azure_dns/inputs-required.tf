@@ -13,3 +13,9 @@ variable "zone_name" {
 variable "dns_records" {
   description = "This are the DNS record exported from the sendgrid"
 }
+
+variable "subscription_id" {
+  type        = string
+  description = "The subscription ID where the dns zone is located"
+  default     = "ed302caf-ec27-4c64-a05e-85731c3ce90e"
+}

@@ -15,28 +15,3 @@ module "access_management_dns" {
   dns_records = module.access_management.dns_records
   zone_name   = "platform.hmcts.net"
 }
-
-moved {
-  from = azurerm_key_vault_secret.subuser["access-management"]
-  to   = module.access_management.azurerm_key_vault_secret.subuser
-}
-
-moved {
-  from = azurerm_key_vault_secret.subuser-api-key["access-management"]
-  to   = module.access_management.azurerm_key_vault_secret.subuser-api-key
-}
-
-moved {
-  from = random_password.password["access-management"]
-  to   = module.access_management.random_password.password
-}
-
-moved {
-  from = sendgrid_api_key.subuser["access-management"]
-  to   = module.access_management.sendgrid_api_key.subuser
-}
-
-moved {
-  from = sendgrid_subuser.user["access-management"]
-  to   = module.access_management.sendgrid_subuser.user
-}

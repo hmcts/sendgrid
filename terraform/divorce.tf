@@ -15,28 +15,3 @@ module "divorce_dns" {
   dns_records = module.divorce.dns_records
   zone_name   = "platform.hmcts.net"
 }
-
-moved {
-  from = azurerm_key_vault_secret.subuser["divorce"]
-  to   = module.divorce.azurerm_key_vault_secret.subuser
-}
-
-moved {
-  from = azurerm_key_vault_secret.subuser-api-key["divorce"]
-  to   = module.divorce.azurerm_key_vault_secret.subuser-api-key
-}
-
-moved {
-  from = random_password.password["divorce"]
-  to   = module.divorce.random_password.password
-}
-
-moved {
-  from = sendgrid_api_key.subuser["divorce"]
-  to   = module.divorce.sendgrid_api_key.subuser
-}
-
-moved {
-  from = sendgrid_subuser.user["divorce"]
-  to   = module.divorce.sendgrid_subuser.user
-}

@@ -15,28 +15,3 @@ module "civil-dns" {
   dns_records = module.civil.dns_records
   zone_name   = "platform.hmcts.net"
 }
-
-moved {
-  from = azurerm_key_vault_secret.subuser["civil"]
-  to   = module.civil.azurerm_key_vault_secret.subuser
-}
-
-moved {
-  from = azurerm_key_vault_secret.subuser-api-key["civil"]
-  to   = module.civil.azurerm_key_vault_secret.subuser-api-key
-}
-
-moved {
-  from = random_password.password["civil"]
-  to   = module.civil.random_password.password
-}
-
-moved {
-  from = sendgrid_api_key.subuser["civil"]
-  to   = module.civil.sendgrid_api_key.subuser
-}
-
-moved {
-  from = sendgrid_subuser.user["civil"]
-  to   = module.civil.sendgrid_subuser.user
-}

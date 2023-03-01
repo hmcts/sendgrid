@@ -1,5 +1,5 @@
 locals {
-  db_non_prod_domains = ["mail-db-reporting-nonprod.platform.hmcts.net"]
+  db_non_prod_domains = ["mail-db-reporting-nonprod.platform.hmcts.net"] # this has been added for non-prod as it was not there in the non prod SaaS account
   db_prod_domains     = ["mail-db-reporting-prod.platform.hmcts.net"]
 }
 

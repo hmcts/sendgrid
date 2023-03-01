@@ -15,28 +15,3 @@ module "damages-dns" {
   dns_records = module.damages.dns_records
   zone_name   = "platform.hmcts.net"
 }
-
-moved {
-  from = azurerm_key_vault_secret.subuser["damages"]
-  to   = module.damages.azurerm_key_vault_secret.subuser
-}
-
-moved {
-  from = azurerm_key_vault_secret.subuser-api-key["damages"]
-  to   = module.damages.azurerm_key_vault_secret.subuser-api-key
-}
-
-moved {
-  from = random_password.password["damages"]
-  to   = module.damages.random_password.password
-}
-
-moved {
-  from = sendgrid_api_key.subuser["damages"]
-  to   = module.damages.sendgrid_api_key.subuser
-}
-
-moved {
-  from = sendgrid_subuser.user["damages"]
-  to   = module.damages.sendgrid_subuser.user
-}

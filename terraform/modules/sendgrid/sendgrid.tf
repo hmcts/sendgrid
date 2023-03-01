@@ -40,19 +40,19 @@ resource "azurerm_key_vault_secret" "subuser-api-key" {
 
 resource "sendgrid_subuser" "user" {
   provider = sendgrid
-
   username = "hmcts-${var.account}-${var.environment}"
   email    = "DTSPlatformOps@HMCTS.NET"
   password = random_password.password.result
   ips      = local.sendgrid_config[var.environment].ips
-
 }
 
 resource "sendgrid_api_key" "subuser" {
-  provider = sendgrid
-
-  name   = "${var.account}-application"
-  scopes = ["mail.send", "2fa_required", "sender_verification_eligible"]
+  provider = sendgrid.subuser
+  name     = "${var.account}-application"
+  scopes   = ["mail.send", "2fa_required", "sender_verification_eligible", "whitelabel.read", "whitelabel.create", "whitelabel.delete", "whitelabel.update"]
+  depends_on = [
+    sendgrid_subuser.user
+  ]
 }
 
 resource "sendgrid_domain_authentication" "domain-authenticate" {
@@ -60,5 +60,8 @@ resource "sendgrid_domain_authentication" "domain-authenticate" {
   provider           = sendgrid.subuser
   domain             = each.key
   is_default         = true
-  automatic_security = false
+  automatic_security = true
+  depends_on = [
+    sendgrid_api_key.subuser
+  ]
 }
