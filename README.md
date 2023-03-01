@@ -44,7 +44,9 @@ e.g.
 2. Once changes has been mereged and the pipeline applies them successfully, please follow below steps.
 
     a. Log in at https://app.sendgrid.com. Username is "hmcts-<name-specified-in-configuration>". Retrieve password from vault.
+    
     b. Browse to Settings --> Sender Authentication on the left side of the menu
+    
     c. Then tick 'I've added these records.' and click 'Verify'.
 
 If successful then DMARC is all setup.
