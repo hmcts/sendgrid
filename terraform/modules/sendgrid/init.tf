@@ -1,12 +1,10 @@
 terraform {
   required_version = ">= 1.2.2"
-  backend "azurerm" {}
-
   required_providers {
-    azurerm = "~> 3.11.0"
+    azurerm = "3.44.1"
     sendgrid = {
-      source  = "Trois-Six/sendgrid"
-      version = "0.1.6"
+      source  = "anna-money/sendgrid"
+      version = "1.0.4"
     }
   }
 }
@@ -24,4 +22,9 @@ provider "azurerm" {
 
 provider "sendgrid" {
   api_key = data.azurerm_key_vault_secret.api.value
+}
+provider "sendgrid" {
+  alias   = "subuser"
+  api_key = data.azurerm_key_vault_secret.api.value
+  subuser = sendgrid_subuser.user.username
 }

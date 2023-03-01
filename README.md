@@ -39,22 +39,13 @@ e.g.
 
 ### Setup in SendGrid portal
 
-1. Log in at https://app.sendgrid.com. Username is "hmcts-\<name-specified-in-configuration\>". Retrieve password from vault.
-2. Click 'Authenticate your domain'
-2. Select 'Other Host (Not listed)
-3. Type 'Azure'
-4. brand links: normally we choose no (the default)
-5. click 'Next'
-6. enter the from domain, e.g. mail-sscs-nonprod.platform.hmcts.net
-7. click 'Next'
+1. Make sure the new account you are setting up has correct domain name and zone name, check other accounts as examples (e.g. access-management.tf)
 
-You will now be on page that gives you DNS records that need to be added to the public DNS zone.
+2. Once changes has been mereged and the pipeline applies them successfully, please follow below steps.
 
-See an example pull request that was used to configure [SSCS's DMARC](https://github.com/hmcts/azure-public-dns/pull/360).
-
-Once the DNS pull request has been merged, wait till it's applied.
-
-Then tick 'I've added these records.' and click 'Verify'.
+    a. Log in at https://app.sendgrid.com. Username is "hmcts-<name-specified-in-configuration>". Retrieve password from vault.
+    b. Browse to Settings --> Sender Authentication on the left side of the menu
+    c. Then tick 'I've added these records.' and click 'Verify'.
 
 If successful then DMARC is all setup.
 
