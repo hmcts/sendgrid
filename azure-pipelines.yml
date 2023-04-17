@@ -71,4 +71,4 @@ stages:
               command: apply
               workingDirectory: $(System.DefaultWorkingDirectory)/terraform
               environmentServiceName: ${{ variables.serviceConnection }}
-              commandOptions: -var environment=${{ environment }} tfplan
+              commandOptions: tfplan
