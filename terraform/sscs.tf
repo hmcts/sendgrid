@@ -1,6 +1,6 @@
 locals {
   sscs_non_prod_domains = ["mail-sscs-nonprod.platform.hmcts.net"] # there are multipe records for the non-prod but in order to not comlicate terraform script, I have added this domain and other domains are not managed using this tf code
-  sscs_prod_domains     = [] # Setting empty until prod setup confirmed with SSCS team
+  sscs_prod_domains     = []                                       # Setting empty until prod setup confirmed with SSCS team
 }
 
 module "sscs" {

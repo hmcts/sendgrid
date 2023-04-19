@@ -14,3 +14,8 @@ locals {
     }
   }
 }
+
+variable "custom_dkim_selector" {
+  description = "If a custom selector is required e.g. shared domain, this will only work if you have a single domain, 3 letters or numbers max."
+  default     = null
+}
