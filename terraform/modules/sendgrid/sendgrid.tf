@@ -56,11 +56,12 @@ resource "sendgrid_api_key" "subuser" {
 }
 
 resource "sendgrid_domain_authentication" "domain-authenticate" {
-  for_each           = toset(var.domains)
-  provider           = sendgrid.subuser
-  domain             = each.key
-  is_default         = true
-  automatic_security = true
+  for_each             = toset(var.domains)
+  provider             = sendgrid.subuser
+  domain               = each.key
+  is_default           = true
+  automatic_security   = true
+  custom_dkim_selector = var.custom_dkim_selector
   depends_on = [
     sendgrid_api_key.subuser
   ]
