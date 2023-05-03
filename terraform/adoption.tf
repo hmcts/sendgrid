@@ -1,5 +1,5 @@
 locals {
-  adoption_non_prod_domains = ["mail-adoption-nonprod.platform.hmcts.net"] # there are multipe records for the non-prod but in order to not comlicate terraform script, I have added this domain and other domains are not managed using this tf code
+  adoption_non_prod_domains = ["mail-adoption-nonprod.platform.hmcts.net"]
   adoption_prod_domains     = ["mail-adoption.platform.hmcts.net"]
 }
 
