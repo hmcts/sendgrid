@@ -1,7 +1,7 @@
 terraform {
   required_version = ">= 1.2.2"
   required_providers {
-    azurerm = "3.55.0"
+    azurerm = "3.56.0"
     sendgrid = {
       source  = "anna-money/sendgrid"
       version = "1.0.4"
