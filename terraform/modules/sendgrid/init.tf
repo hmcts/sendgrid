@@ -4,7 +4,7 @@ terraform {
     azurerm = "3.55.0"
     sendgrid = {
       source  = "anna-money/sendgrid"
-      version = "1.0.4"
+      version = "1.0.5"
     }
   }
 }
