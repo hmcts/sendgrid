@@ -15,4 +15,3 @@ module "uipath-dns" {
   dns_records = module.uipath.dns_records
   zone_name   = "platform.hmcts.net"
 }
-
