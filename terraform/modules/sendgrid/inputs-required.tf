@@ -9,3 +9,8 @@ variable "account" {
 variable "domains" {
   description = "Domains being authenticated"
 }
+
+variable "email" {
+  description = "Sendgrid account email"
+  default = "DTSPlatformOps@HMCTS.NET"
+}
