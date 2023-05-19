@@ -41,7 +41,7 @@ resource "azurerm_key_vault_secret" "subuser-api-key" {
 resource "sendgrid_subuser" "user" {
   provider = sendgrid
   username = "hmcts-${var.account}-${var.environment}"
-  email    = "DTSPlatformOps@HMCTS.NET"
+  email    = var.email
   password = random_password.password.result
   ips      = local.sendgrid_config[var.environment].ips
 }

@@ -1,6 +1,12 @@
 variable "environment" {
   description = "SendGrid Configuration"
 }
+
+variable "email" {
+  description = "Sendgrid account email"
+  default = "DTSPlatformOperations@justice.gov.uk"
+}
+
 locals {
   sendgrid_config = {
     nonprod = {
