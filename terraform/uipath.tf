@@ -7,7 +7,7 @@ module "uipath" {
   source      = "./modules/sendgrid"
   environment = var.environment
   account     = "uipath"
-  email        = "DTSPlatformOperations@justice.gov.uk"
+  email       = "var.email"
   domains     = var.environment == "prod" ? local.uipath_prod_domains : local.uipath_non_prod_domains
 }
 
