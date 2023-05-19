@@ -15,4 +15,3 @@ module "panorama-dns" {
   dns_records = module.panorama.dns_records
   zone_name   = "platform.hmcts.net"
 }
-
