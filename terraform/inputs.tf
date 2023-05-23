@@ -4,19 +4,19 @@ variable "environment" {
 
 variable "email" {
   description = "Sendgrid account email"
-  default = "DTSPlatformOperations@justice.gov.uk"
+  default     = "DTSPlatformOperations@justice.gov.uk"
 }
 
 variable "product" {
-  type = string
+  type    = string
   default = "sendgrid"
 }
 variable "builtFrom" {
-  type = string
+  type    = string
   default = "hmcts/sendgrid"
 }
 variable "expiresAfter" {
-  type = string
+  type    = string
   default = "3000-01-01"
 }
 

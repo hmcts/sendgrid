@@ -7,6 +7,7 @@ resource "azurerm_dns_cname_record" "record1" {
   name   = trimsuffix("${lookup(each.value.record1, "host")}", ".${var.zone_name}")
   ttl    = 300
   record = lookup(each.value.record1, "data")
+  tags   = var.tags
 }
 resource "azurerm_dns_cname_record" "record2" {
   for_each            = var.dns_records
@@ -16,6 +17,7 @@ resource "azurerm_dns_cname_record" "record2" {
   name   = trimsuffix("${lookup(each.value.record2, "host")}", ".${var.zone_name}")
   ttl    = 300
   record = lookup(each.value.record2, "data")
+  tags   = var.tags
 }
 
 resource "azurerm_dns_cname_record" "record3" {
@@ -26,4 +28,5 @@ resource "azurerm_dns_cname_record" "record3" {
   name   = trimsuffix("${lookup(each.value.record3, "host")}", ".${var.zone_name}")
   ttl    = 300
   record = lookup(each.value.record3, "data")
+  tags   = var.tags
 }

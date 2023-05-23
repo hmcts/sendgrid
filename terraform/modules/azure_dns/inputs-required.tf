@@ -19,3 +19,8 @@ variable "subscription_id" {
   description = "The subscription ID where the dns zone is located"
   default     = "ed302caf-ec27-4c64-a05e-85731c3ce90e"
 }
+
+variable "tags" {
+  type        = map(any)
+  description = "Resource tags"
+}

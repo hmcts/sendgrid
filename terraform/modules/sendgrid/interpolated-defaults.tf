@@ -12,7 +12,7 @@ locals {
         "167.89.74.8"
       ]
     }
-  },
+  }
   common_tags = module.ctags.common_tags
 }
 
