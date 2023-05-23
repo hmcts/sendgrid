@@ -7,6 +7,19 @@ variable "email" {
   default = "DTSPlatformOperations@justice.gov.uk"
 }
 
+variable "product" {
+  type = string
+  default = "sendgrid"
+}
+variable "builtFrom" {
+  type = string
+  default = "hmcts/sendgrid"
+}
+variable "expiresAfter" {
+  type = string
+  default = "3000-01-01"
+}
+
 locals {
   sendgrid_config = {
     nonprod = {
