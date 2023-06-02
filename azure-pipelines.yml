@@ -7,11 +7,28 @@ resources:
     endpoint: 'hmcts'
 
 parameters:
-  - name: sendgridEnvironments
-    type: object
-    default:
-    - nonprod
-    - prod
+  - name: env
+    displayName: sendgridEnvironment
+    type: string
+    default: 'nonprod'
+    values:
+    - 'nonprod'
+    - 'prod'
+
+  - name: action
+    displayName: Action
+    type: string
+    default: 'plan'
+    values:
+    - plan
+    - apply
+
+  - name: location
+    displayName: Location
+    type: string
+    default: 'UK South'
+    values:
+    - 'UK South'
 
 variables:
   isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
