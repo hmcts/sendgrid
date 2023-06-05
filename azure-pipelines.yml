@@ -1,3 +1,8 @@
+name: ${{ parameters.action }} - ${{ parameters.env }}.${{ parameters.location }}
+
+trigger:
+  - master
+
 resources:
   repositories:
   - repository: cnp-azuredevops-libraries
@@ -6,15 +11,10 @@ resources:
     name: hmcts/cnp-azuredevops-libraries
     endpoint: 'hmcts'
 
-parameters:
-  - name: env
-    displayName: sendgridEnvironment
-    type: string
-    default: 'nonprod'
-    values:
-    - 'nonprod'
-    - 'prod'
+pool:
+  vmImage: 'ubuntu-latest'
 
+parameters:
   - name: action
     displayName: Action
     type: string
@@ -23,6 +23,14 @@ parameters:
     - plan
     - apply
 
+  - name: env
+    displayName: sendgridEnvironment
+    type: string
+    default: 'nonprod'
+    values:
+    - 'nonprod'
+    - 'prod'
+
   - name: location
     displayName: Location
     type: string
@@ -30,20 +38,46 @@ parameters:
     values:
     - 'UK South'
 
-variables:
-  isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
-  location: uksouth    
-  terraformVersion: 1.2.2
+# variables:
+# isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
+# location: uksouth    
+# terraformVersion: 1.2.2
 
-trigger:
-  - master
-
-pool:
-  vmImage: 'ubuntu-latest'
+  variables:
+    - name: timeoutInMinutes
+      value: 60
+    - name: agentPool
+      value: ubuntu-20.04 
+    - name: project
+      value: ss
+    - name: serviceConnection
+      value: OPS-APPROVAL-GATE-${{ parameters.env }}-ENVS
+    - name: tfInitSub
+      value: "04d27a32-7a07-48b3-95b8-3c8691e1a263"
+   # - name: product
+    #  value: "sds-platform"
+    - name: action
+      value: ${{ parameters.action }}
+    - template: vars/input-variables.yaml@cnp-azuredevops-libraries
 
 stages:
-  - ${{ each environment in parameters.sendgridEnvironments }}:
-    - stage: ${{ environment }}
+
+  - stage: Precheck
+    jobs:
+    - job:
+      pool:
+        vmImage: ${{ variables.agentPool }}
+        timeoutInMinutes: ${{ variables.timeoutInMinutes }}
+      steps:
+        - template: steps/terraform-precheck.yaml@cnp-azuredevops-libraries
+          parameters:
+            keyvaultName: 'sendgridnonprod'
+            keyvaultSecret: 'sendgrid-nonprod-password'
+            serviceConnection: 'DCD-CNP-DEV'
+            overrideAction: ${{ parameters.action }}
+  
+- ${{ each environment in parameters.sendgridEnvironments }}:
+ - stage: ${{ environment }}
 
       variables:
         serviceConnection: dts-management-${{ environment }}-intsvc
@@ -59,41 +93,41 @@ stages:
             inputs:
               terraformVersion: ${{ variables.terraformVersion }}
 
-          - task: TerraformCLI@0
-            displayName: Terraform initialize
-            inputs:
-              command: init
-              workingDirectory: $(System.DefaultWorkingDirectory)/terraform
-              backendType: azurerm
-              ensurebackend: true
-              backendServiceArm: ${{ variables.serviceConnection }}
-              backendAzureRmResourceGroupName: ${{ variables.resourceGroup }}
-              backendAzureRmResourceGroupLocation: ${{ variables.location }}
-              backendAzureRmStorageAccountName: ${{ variables.storageAccount }}
-              backendAzureRmStorageAccountSku: Standard_ZRS
-              backendAzureRmContainerName: ${{ variables.container }}
-              backendAzureRmKey: SendGrid-${{ environment }}/terraform.tfstate
+          # - task: TerraformCLI@0
+          #   displayName: Terraform initialize
+          #   inputs:
+          #     command: init
+          #     workingDirectory: $(System.DefaultWorkingDirectory)/terraform
+          #     backendType: azurerm
+          #     ensurebackend: true
+          #     backendServiceArm: ${{ variables.serviceConnection }}
+          #     backendAzureRmResourceGroupName: ${{ variables.resourceGroup }}
+          #     backendAzureRmResourceGroupLocation: ${{ variables.location }}
+          #     backendAzureRmStorageAccountName: ${{ variables.storageAccount }}
+          #     backendAzureRmStorageAccountSku: Standard_ZRS
+          #     backendAzureRmContainerName: ${{ variables.container }}
+          #     backendAzureRmKey: SendGrid-${{ environment }}/terraform.tfstate
 
-          - task: TerraformCLI@0
-            displayName: Terraform validate
-            inputs:
-              command: validate
-              workingDirectory: $(System.DefaultWorkingDirectory)/terraform
+          # - task: TerraformCLI@0
+          #   displayName: Terraform validate
+          #   inputs:
+          #     command: validate
+          #     workingDirectory: $(System.DefaultWorkingDirectory)/terraform
 
-          - task: TerraformCLI@0
-            displayName: Terraform plan
-            inputs:
-              command: plan
-              workingDirectory: $(System.DefaultWorkingDirectory)/terraform
-              environmentServiceName: ${{ variables.serviceConnection }}
-              commandOptions: -var environment=${{ environment }} -out tfplan
-              publishPlanResults: $(System.StageDisplayName)
+          # - task: TerraformCLI@0
+          #   displayName: Terraform plan
+          #   inputs:
+          #     command: plan
+          #     workingDirectory: $(System.DefaultWorkingDirectory)/terraform
+          #     environmentServiceName: ${{ variables.serviceConnection }}
+          #     commandOptions: -var environment=${{ environment }} -out tfplan
+          #     publishPlanResults: $(System.StageDisplayName)
 
-          - task: TerraformCLI@0
-            displayName: Terraform apply
-            condition: and(succeeded(), eq(variables.isMain, true))
-            inputs:
-              command: apply
-              workingDirectory: $(System.DefaultWorkingDirectory)/terraform
-              environmentServiceName: ${{ variables.serviceConnection }}
-              commandOptions: tfplan
+          # - task: TerraformCLI@0
+          #   displayName: Terraform apply
+          #   condition: and(succeeded(), eq(variables.isMain, true))
+          #   inputs:
+          #     command: apply
+          #     workingDirectory: $(System.DefaultWorkingDirectory)/terraform
+          #     environmentServiceName: ${{ variables.serviceConnection }}
+          #     commandOptions: tfplan
