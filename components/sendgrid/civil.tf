@@ -4,14 +4,14 @@ locals {
 }
 
 module "civil" {
-  source      = "./modules/sendgrid"
+  source      = "../modules/sendgrid"
   environment = var.environment
   account     = "civil"
   domains     = var.environment == "prod" ? local.civil_prod_domains : local.civil_non_prod_domains
 }
 
 module "civil-dns" {
-  source      = "./modules/azure_dns"
+  source      = "../modules/azure_dns"
   dns_records = module.civil.dns_records
   zone_name   = "platform.hmcts.net"
 }

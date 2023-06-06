@@ -38,11 +38,6 @@ parameters:
     values:
     - 'UK South'
 
-# variables:
-# isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
-# location: uksouth    
-# terraformVersion: 1.2.2
-
   variables:
     - name: timeoutInMinutes
       value: 60
@@ -76,15 +71,8 @@ stages:
             serviceConnection: 'DCD-CNP-DEV'
             overrideAction: ${{ parameters.action }}
   
-- ${{ each environment in parameters.sendgridEnvironments }}:
- - stage: ${{ environment }}
-
-      variables:
-        serviceConnection: dts-management-${{ environment }}-intsvc
-        resourceGroup: mgmt-state-store-${{ environment }}-rg
-        storageAccount: dtsmgmtstatestore${{ environment }}
-        container: ${{ environment }}     
-
+  - ${{ each environment in parameters.sendgridEnvironments }}:
+    - stage: ${{ environment }}
       jobs:
         - job: PlanAndApply
           steps:     
@@ -92,42 +80,3 @@ stages:
             displayName: Terraform install
             inputs:
               terraformVersion: ${{ variables.terraformVersion }}
-
-          # - task: TerraformCLI@0
-          #   displayName: Terraform initialize
-          #   inputs:
-          #     command: init
-          #     workingDirectory: $(System.DefaultWorkingDirectory)/terraform
-          #     backendType: azurerm
-          #     ensurebackend: true
-          #     backendServiceArm: ${{ variables.serviceConnection }}
-          #     backendAzureRmResourceGroupName: ${{ variables.resourceGroup }}
-          #     backendAzureRmResourceGroupLocation: ${{ variables.location }}
-          #     backendAzureRmStorageAccountName: ${{ variables.storageAccount }}
-          #     backendAzureRmStorageAccountSku: Standard_ZRS
-          #     backendAzureRmContainerName: ${{ variables.container }}
-          #     backendAzureRmKey: SendGrid-${{ environment }}/terraform.tfstate
-
-          # - task: TerraformCLI@0
-          #   displayName: Terraform validate
-          #   inputs:
-          #     command: validate
-          #     workingDirectory: $(System.DefaultWorkingDirectory)/terraform
-
-          # - task: TerraformCLI@0
-          #   displayName: Terraform plan
-          #   inputs:
-          #     command: plan
-          #     workingDirectory: $(System.DefaultWorkingDirectory)/terraform
-          #     environmentServiceName: ${{ variables.serviceConnection }}
-          #     commandOptions: -var environment=${{ environment }} -out tfplan
-          #     publishPlanResults: $(System.StageDisplayName)
-
-          # - task: TerraformCLI@0
-          #   displayName: Terraform apply
-          #   condition: and(succeeded(), eq(variables.isMain, true))
-          #   inputs:
-          #     command: apply
-          #     workingDirectory: $(System.DefaultWorkingDirectory)/terraform
-          #     environmentServiceName: ${{ variables.serviceConnection }}
-          #     commandOptions: tfplan

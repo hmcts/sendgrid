@@ -4,14 +4,14 @@ locals {
 }
 
 module "damages" {
-  source      = "./modules/sendgrid"
+  source      = "../modules/sendgrid"
   environment = var.environment
   account     = "damages"
   domains     = var.environment == "prod" ? local.damages_prod_domains : local.damages_non_prod_domains
 }
 
 module "damages-dns" {
-  source      = "./modules/azure_dns"
+  source      = "../modules/azure_dns"
   dns_records = module.damages.dns_records
   zone_name   = "platform.hmcts.net"
 }

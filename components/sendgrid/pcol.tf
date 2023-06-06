@@ -1,5 +1,5 @@
 module "pcol" {
-  source      = "./modules/sendgrid"
+  source      = "../modules/sendgrid"
   environment = var.environment
   account     = "pcol"
   # pcol uses noreply-pcol@hmcts.net for both NLE and prod
@@ -9,7 +9,7 @@ module "pcol" {
 }
 
 module "pcol-dns" {
-  source      = "./modules/azure_dns"
+  source      = "../modules/azure_dns"
   dns_records = module.pcol.dns_records
   zone_name   = "hmcts.net"
 }

@@ -4,14 +4,14 @@ locals {
 }
 
 module "private_law" {
-  source      = "./modules/sendgrid"
+  source      = "../modules/sendgrid"
   environment = var.environment
   account     = "private-law"
   domains     = var.environment == "prod" ? local.prl_prod_domains : local.prl_non_prod_domains
 }
 
 module "private_law_dns" {
-  source      = "./modules/azure_dns"
+  source      = "../modules/azure_dns"
   dns_records = module.private_law.dns_records
   zone_name   = "platform.hmcts.net"
 }
