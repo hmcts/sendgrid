@@ -71,7 +71,7 @@ stages:
             serviceConnection: 'DCD-CNP-DEV'
             overrideAction: ${{ parameters.action }}
   
-  - ${{ each environment in parameters.sendgridEnvironment }}:
+  - ${{ each environment in parameters.env }}:
     - stage: ${{ environment }}
       jobs:
         - job: PlanAndApply
