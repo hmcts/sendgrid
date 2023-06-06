@@ -38,22 +38,22 @@ parameters:
     values:
     - 'UK South'
 
-  variables:
-    - name: timeoutInMinutes
-      value: 60
-    - name: agentPool
-      value: ubuntu-20.04 
-    - name: project
-      value: ss
-    - name: serviceConnection
-      value: OPS-APPROVAL-GATE-${{ parameters.env }}-ENVS
-    - name: tfInitSub
-      value: "04d27a32-7a07-48b3-95b8-3c8691e1a263"
+variables:
+  - name: timeoutInMinutes
+    value: 60
+  - name: agentPool
+    value: ubuntu-20.04 
+  - name: project
+    value: ss
+  - name: serviceConnection
+    value: OPS-APPROVAL-GATE-${{ parameters.env }}-ENVS
+  - name: tfInitSub
+    value: "04d27a32-7a07-48b3-95b8-3c8691e1a263"
    # - name: product
     #  value: "sds-platform"
-    - name: action
-      value: ${{ parameters.action }}
-    - template: vars/input-variables.yaml@cnp-azuredevops-libraries
+  - name: action
+    value: ${{ parameters.action }}
+  - template: vars/input-variables.yaml@cnp-azuredevops-libraries
 
 stages:
 
@@ -76,6 +76,22 @@ stages:
       jobs:
         - job: PlanAndApply
           steps:     
+          - template: steps/terraform.yaml@cnp-azuredevops-libraries
+            parameters:
+              serviceConnection: dts-management-${{ environment }}-intsvc
+              product: $(product)
+              overrideAction: ${{ parameters.overrideAction }}
+              environment: ${{ deployment.environment }}
+              component: "sendgrid"
+              terraformInitSubscription: ${{ variables.terraformInitSubscription }}
+              tfVarsFile: NULL
+              initCommandOptions: >
+                 -reconfigure
+                 -backend-config resource_group_name=${{ deployment.resourceGroupName }}
+              planCommandOptions: >
+                -compact-warnings
+                -lock-timeout=30s
+        
           - task: TerraformInstaller@0
             displayName: Terraform install
             inputs:
