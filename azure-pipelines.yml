@@ -26,7 +26,7 @@ parameters:
   - name: env
     displayName: sendgridEnvironment
     type: string
-    default: 'nonprod'
+    default:
     values:
     - nonprod
     - prod
@@ -71,7 +71,7 @@ stages:
             serviceConnection: 'DCD-CNP-DEV'
             overrideAction: ${{ parameters.action }}
   
-  - ${{ each environment in parameters.env.split(',') }}:
+  - ${{ each environment in parameters.env }}:
     - stage: ${{ environment }}
       jobs:
         - job: PlanAndApply
