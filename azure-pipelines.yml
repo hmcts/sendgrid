@@ -25,7 +25,7 @@ parameters:
 
   - name: environment
     displayName: Environments
-    type: object
+    type: string
     default: nonprod
     values:
       - nonprod
