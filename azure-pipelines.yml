@@ -84,6 +84,7 @@ stages:
           steps:     
           - template: steps/terraform.yaml@cnp-azuredevops-libraries
             parameters:
+              location: ${{ parameters.location }}
               serviceConnection: "DTS-MANAGEMENT-${{ environment }}-INTSVC"
               product: ${{ variables.product }}
               overrideAction: ${{ parameters.overrideAction }}
