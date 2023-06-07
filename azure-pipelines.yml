@@ -1,4 +1,4 @@
-name: ${{ parameters.action }} - ${{ parameters.env }}.${{ parameters.location }}
+name: SendGrid
 
 trigger:
   - master
