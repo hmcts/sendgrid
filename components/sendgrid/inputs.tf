@@ -4,7 +4,7 @@ variable "environment" {
 
 variable "email" {
   description = "Sendgrid account email"
-  default = "DTSPlatformOperations@justice.gov.uk"
+  default     = "DTSPlatformOperations@justice.gov.uk"
 }
 
 locals {

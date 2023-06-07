@@ -1,7 +1,9 @@
 name: SendGrid
-
 trigger:
-  - master
+  batch: true
+  branches:
+    include:
+      - master
 
 resources:
   repositories:
@@ -37,20 +39,14 @@ parameters:
     values:
       - "UK South"
 
-  - name: overrideAction
-    type: string
-    default: plan
-    values:
-      - plan
-      - apply
-      - destroy
-
 variables:
   - name: timeoutInMinutes
     value: 60
   - name: agentPool
     value: "ubuntu-latest"
   - name: project
+    value: "sendgrid"
+  - name: product
     value: "sendgrid"
   - name: terraformInitSubscription
     value: "04d27a32-7a07-48b3-95b8-3c8691e1a263"
@@ -81,7 +77,7 @@ stages:
           - template: steps/terraform.yaml@cnp-azuredevops-libraries
             parameters:
               serviceConnection: "dts-management-${{ environment }}-intsvc"
-              product: ${{ variables.project }}
+              product: ${{ variables.product }}
               overrideAction: ${{ parameters.overrideAction }}
               environment: ${{ environment }}
               component: "sendgrid"
