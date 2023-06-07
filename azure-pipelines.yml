@@ -25,8 +25,8 @@ parameters:
 
   - name: env
     displayName: sendgridEnvironment
-    type: string
-    default:
+    type: object
+    default: 'nonprod'
     values:
     - nonprod
     - prod
