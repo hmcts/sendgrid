@@ -53,8 +53,6 @@ variables:
     value: "ubuntu-latest"
   - name: project
     value: "sendgrid"
-  - name: serviceConnection
-    value: "OPS-APPROVAL-GATE-${{ parameters.env }}-ENVS"
   - name: terraformInitSubscription
     value: "04d27a32-7a07-48b3-95b8-3c8691e1a263"
   - name: action
