@@ -71,7 +71,7 @@ stages:
             serviceConnection: 'DCD-CNP-DEV'
             overrideAction: ${{ parameters.action }}
   
-  - ${{ each environment in parameters.env }}:
+  - ${{ each environment in parameters.env.split(',') }}:
     - stage: ${{ environment }}
       jobs:
         - job: PlanAndApply
