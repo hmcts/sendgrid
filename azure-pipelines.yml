@@ -97,7 +97,7 @@ stages:
               initCommandOptions: >
                  -reconfigure
               planCommandOptions: >
-                -var env=${{ parameters.environment }}
+                -var env=${{ environment }}
                 -compact-warnings
                 -lock-timeout=30s
         
