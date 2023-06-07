@@ -23,8 +23,8 @@ parameters:
     - plan
     - apply
 
-  - name: env
-    displayName: sendgridEnvironment
+  - name: environment
+    displayName: Environments
     type: object
     default:
     values:
@@ -38,56 +38,60 @@ parameters:
     values:
     - 'UK South'
 
+  - name: overrideAction
+    type: string
+    default: plan
+    values:
+      - plan
+      - apply
+      - destroy
+
 variables:
   - name: timeoutInMinutes
     value: 60
   - name: agentPool
-    value: ubuntu-20.04 
+    value: "ubuntu-latest"
   - name: project
-    value: ss
+    value: "sendgrid"
   - name: serviceConnection
-    value: OPS-APPROVAL-GATE-${{ parameters.env }}-ENVS
-  - name: tfInitSub
+    value: "OPS-APPROVAL-GATE-${{ parameters.env }}-ENVS"
+  - name: terraformInitSubscription
     value: "04d27a32-7a07-48b3-95b8-3c8691e1a263"
-   # - name: product
-    #  value: "sds-platform"
   - name: action
     value: ${{ parameters.action }}
   - template: vars/input-variables.yaml@cnp-azuredevops-libraries
 
 stages:
-
   - stage: Precheck
     jobs:
-    - job:
-      pool:
-        vmImage: ${{ variables.agentPool }}
+      - job:
+        pool:
+          vmImage: ${{ variables.agentPool }}
         timeoutInMinutes: ${{ variables.timeoutInMinutes }}
-      steps:
-        - template: steps/terraform-precheck.yaml@cnp-azuredevops-libraries
-          parameters:
-            keyvaultName: 'sendgridnonprod'
-            keyvaultSecret: 'sendgrid-nonprod-password'
-            serviceConnection: 'DCD-CNP-DEV'
-            overrideAction: ${{ parameters.action }}
-  
-  - ${{ each environment in parameters.env }}:
+        steps:
+          - template: steps/terraform-precheck.yaml@cnp-azuredevops-libraries
+            parameters:
+              keyvaultName: 'infra-vault-nonprod'
+              keyvaultSecret: 'azure-devops-token'
+              serviceConnection: 'DCD-CFT-Sandbox'
+              overrideAction: ${{ parameters.overrideAction }}
+
+  - ${{ each environment in parameters.environment }}:
     - stage: ${{ environment }}
       jobs:
         - job: PlanAndApply
           steps:     
           - template: steps/terraform.yaml@cnp-azuredevops-libraries
             parameters:
-              serviceConnection: dts-management-${{ environment }}-intsvc
-              product: $(product)
+              serviceConnection: "dts-management-${{ environment }}-intsvc"
+              product: ${{ variables.project }}
               overrideAction: ${{ parameters.overrideAction }}
-              environment: ${{ deployment.environment }}
+              environment: ${{ environment }}
               component: "sendgrid"
               terraformInitSubscription: ${{ variables.terraformInitSubscription }}
               tfVarsFile: NULL
               initCommandOptions: >
                  -reconfigure
-                 -backend-config resource_group_name=${{ deployment.resourceGroupName }}
               planCommandOptions: >
                 -compact-warnings
                 -lock-timeout=30s
