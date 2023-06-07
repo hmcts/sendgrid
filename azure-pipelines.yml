@@ -18,25 +18,25 @@ parameters:
   - name: action
     displayName: Action
     type: string
-    default: 'plan'
+    default: plan
     values:
-    - plan
-    - apply
+      - plan
+      - apply
 
   - name: environment
     displayName: Environments
     type: object
-    default:
+    default: nonprod
     values:
-    - nonprod
-    - prod
+      - nonprod
+      - prod
 
   - name: location
     displayName: Location
     type: string
-    default: 'UK South'
+    default: "UK South"
     values:
-    - 'UK South'
+      - "UK South"
 
   - name: overrideAction
     type: string
