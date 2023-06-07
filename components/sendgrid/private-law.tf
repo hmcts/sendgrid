@@ -5,9 +5,9 @@ locals {
 
 module "private_law" {
   source      = "../modules/sendgrid"
-  environment = var.environment
+  environment = var.env
   account     = "private-law"
-  domains     = var.environment == "prod" ? local.prl_prod_domains : local.prl_non_prod_domains
+  domains     = var.env == "prod" ? local.prl_prod_domains : local.prl_non_prod_domains
 }
 
 module "private_law_dns" {

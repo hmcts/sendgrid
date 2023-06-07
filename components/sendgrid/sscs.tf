@@ -5,9 +5,9 @@ locals {
 
 module "sscs" {
   source      = "../modules/sendgrid"
-  environment = var.environment
+  environment = var.env
   account     = "sscs"
-  domains     = var.environment == "prod" ? local.sscs_prod_domains : local.sscs_non_prod_domains
+  domains     = var.env == "prod" ? local.sscs_prod_domains : local.sscs_non_prod_domains
 }
 
 module "sscs_dns" {

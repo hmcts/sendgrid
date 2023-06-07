@@ -5,9 +5,9 @@ locals {
 
 module "dcs" {
   source      = "../modules/sendgrid"
-  environment = var.environment
+  environment = var.env
   account     = "dcs"
-  domains     = var.environment == "prod" ? local.dcs_prod_domains : local.dcs_non_prod_domains
+  domains     = var.env == "prod" ? local.dcs_prod_domains : local.dcs_non_prod_domains
 }
 
 module "dcs-dns" {

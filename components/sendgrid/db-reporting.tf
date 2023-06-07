@@ -5,9 +5,9 @@ locals {
 
 module "db_reporting" {
   source      = "../modules/sendgrid"
-  environment = var.environment
+  environment = var.env
   account     = "db-reporting"
-  domains     = var.environment == "prod" ? local.db_prod_domains : local.db_non_prod_domains
+  domains     = var.env == "prod" ? local.db_prod_domains : local.db_non_prod_domains
 }
 
 module "db_reporting_dns" {

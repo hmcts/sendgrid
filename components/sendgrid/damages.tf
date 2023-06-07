@@ -5,9 +5,9 @@ locals {
 
 module "damages" {
   source      = "../modules/sendgrid"
-  environment = var.environment
+  environment = var.env
   account     = "damages"
-  domains     = var.environment == "prod" ? local.damages_prod_domains : local.damages_non_prod_domains
+  domains     = var.env == "prod" ? local.damages_prod_domains : local.damages_non_prod_domains
 }
 
 module "damages-dns" {

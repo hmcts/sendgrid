@@ -5,9 +5,9 @@ locals {
 
 module "panorama" {
   source      = "../modules/sendgrid"
-  environment = var.environment
+  environment = var.env
   account     = "panorama"
-  domains     = var.environment == "prod" ? local.panorama_prod_domains : local.panorama_non_prod_domains
+  domains     = var.env == "prod" ? local.panorama_prod_domains : local.panorama_non_prod_domains
 }
 
 module "panorama-dns" {

@@ -17,14 +17,14 @@ provider "azurerm" {
 provider "azurerm" {
   alias = "api_key_vault"
   features {}
-  subscription_id = local.sendgrid_config[var.environment].key_vault_subscription
+  subscription_id = local.sendgrid_config[var.env].key_vault_subscription
 }
 
 data "azurerm_key_vault" "kv" {
   provider = azurerm.api_key_vault
 
-  name                = "sendgrid${var.environment}"
-  resource_group_name = "SendGrid-${var.environment}"
+  name                = "sendgrid${var.env}"
+  resource_group_name = "SendGrid-${var.env}"
 }
 
 data "azurerm_key_vault_secret" "api" {

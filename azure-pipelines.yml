@@ -84,16 +84,20 @@ stages:
           steps:     
           - template: steps/terraform.yaml@cnp-azuredevops-libraries
             parameters:
-              serviceConnection: "dts-management-${{ environment }}-intsvc"
+              serviceConnection: "DTS-MANAGEMENT-${{ environment }}-INTSVC"
               product: ${{ variables.product }}
               overrideAction: ${{ parameters.overrideAction }}
-              environment: ${{ environment }}
+              ${{ if eq( ${{ environment }}, 'nonprod') }}:
+                environment: "stg"
+              ${{ else }}:
+                environment: ${{ environment }}
               component: "sendgrid"
               terraformInitSubscription: ${{ variables.terraformInitSubscription }}
               tfVarsFile: NULL
               initCommandOptions: >
                  -reconfigure
               planCommandOptions: >
+                -var env=${{ parameters.environment }}
                 -compact-warnings
                 -lock-timeout=30s
         

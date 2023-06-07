@@ -5,9 +5,9 @@ locals {
 
 module "employment_tribunals" {
   source      = "../modules/sendgrid"
-  environment = var.environment
+  environment = var.env
   account     = "employment-tribunals"
-  domains     = var.environment == "prod" ? local.et_prod_domains : local.et_non_prod_domains
+  domains     = var.env == "prod" ? local.et_prod_domains : local.et_non_prod_domains
 }
 
 module "employment_tribunals_dns" {

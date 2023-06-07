@@ -5,9 +5,9 @@ locals {
 
 module "payment" {
   source      = "../modules/sendgrid"
-  environment = var.environment
+  environment = var.env
   account     = "payment"
-  domains     = var.environment == "prod" ? local.payment_prod_domains : local.payment_non_prod_domains
+  domains     = var.env == "prod" ? local.payment_prod_domains : local.payment_non_prod_domains
 }
 
 module "payment_dns" {

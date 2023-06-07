@@ -5,9 +5,9 @@ locals {
 
 module "civil" {
   source      = "../modules/sendgrid"
-  environment = var.environment
+  environment = var.env
   account     = "civil"
-  domains     = var.environment == "prod" ? local.civil_prod_domains : local.civil_non_prod_domains
+  domains     = var.env == "prod" ? local.civil_prod_domains : local.civil_non_prod_domains
 }
 
 module "civil-dns" {

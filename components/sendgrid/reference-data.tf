@@ -5,9 +5,9 @@ locals {
 
 module "reference_data" {
   source      = "../modules/sendgrid"
-  environment = var.environment
+  environment = var.env
   account     = "reference-data"
-  domains     = var.environment == "prod" ? local.rd_prod_domains : local.rd_non_prod_domains
+  domains     = var.env == "prod" ? local.rd_prod_domains : local.rd_non_prod_domains
 }
 
 module "reference_data_dns" {

@@ -17,7 +17,7 @@ provider "azurerm" {
   alias = "api_key_vault"
 
   features {}
-  subscription_id = local.sendgrid_config[var.environment].key_vault_subscription
+  subscription_id = local.sendgrid_config[var.env].key_vault_subscription
 }
 
 provider "sendgrid" {

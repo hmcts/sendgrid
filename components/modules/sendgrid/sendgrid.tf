@@ -3,8 +3,8 @@ data "azurerm_client_config" "current" {}
 data "azurerm_key_vault" "kv" {
   provider = azurerm.api_key_vault
 
-  name                = "sendgrid${var.environment}"
-  resource_group_name = "SendGrid-${var.environment}"
+  name                = "sendgrid${var.env}"
+  resource_group_name = "SendGrid-${var.env}"
 }
 
 data "azurerm_key_vault_secret" "api" {
@@ -40,10 +40,10 @@ resource "azurerm_key_vault_secret" "subuser-api-key" {
 
 resource "sendgrid_subuser" "user" {
   provider = sendgrid
-  username = "hmcts-${var.account}-${var.environment}"
+  username = "hmcts-${var.account}-${var.env}"
   email    = var.email
   password = random_password.password.result
-  ips      = local.sendgrid_config[var.environment].ips
+  ips      = local.sendgrid_config[var.env].ips
 }
 
 resource "sendgrid_api_key" "subuser" {

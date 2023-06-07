@@ -5,9 +5,9 @@ locals {
 
 module "divorce" {
   source      = "../modules/sendgrid"
-  environment = var.environment
+  environment = var.env
   account     = "divorce"
-  domains     = var.environment == "prod" ? local.div_prod_domains : local.div_non_prod_domains
+  domains     = var.env == "prod" ? local.div_prod_domains : local.div_non_prod_domains
 }
 
 module "divorce_dns" {
