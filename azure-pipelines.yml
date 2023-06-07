@@ -28,8 +28,8 @@ parameters:
     type: string
     default: 'nonprod'
     values:
-    - 'nonprod'
-    - 'prod'
+    - nonprod
+    - prod
 
   - name: location
     displayName: Location
