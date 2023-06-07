@@ -39,6 +39,14 @@ parameters:
     values:
       - "UK South"
 
+  - name: overrideAction
+    type: string
+    default: plan
+    values:
+      - plan
+      - apply
+      - destroy
+
 variables:
   - name: timeoutInMinutes
     value: 60
