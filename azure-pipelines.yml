@@ -60,22 +60,12 @@ variables:
     value: "04d27a32-7a07-48b3-95b8-3c8691e1a263"
   - name: action
     value: ${{ parameters.action }}
-  - name: backendAzureRmResourceGroupName
-    ${{ if eq( parameters['environment'], 'nonprod') }}:
-      value: 'azure-control-stg-rg'
-  - name: terraformSubscriptionID
-    ${{ if eq( parameters['environment'], 'nonprod') }}:
-      value: "1c4f0704-a29e-403d-b719-b90c34ef14c9"
-    ${{ if eq( parameters['environment'], 'prod') }}:
-      value: "8999dec3-0104-4a27-94ee-6588559729d1"
   - template: vars/input-variables.yaml@cnp-azuredevops-libraries
 
 stages:
   - stage: Precheck
     jobs:
       - job:
-        pool:
-          vmImage: ${{ variables.agentPool }}
         timeoutInMinutes: ${{ variables.timeoutInMinutes }}
         steps:
           - template: steps/terraform-precheck.yaml@cnp-azuredevops-libraries
@@ -87,28 +77,34 @@ stages:
 
   - ${{ each environment in parameters.environment }}:
     - stage: ${{ environment }}
+
+      variables:
+        serviceConnection: "DTS-MANAGEMENT-${{ environment }}-INTSVC"
+        ${{ if eq( '${{ environment }}', 'nonprod') }}:
+          env: "stg"
+          terraformSubscriptionID: "1c4f0704-a29e-403d-b719-b90c34ef14c9"
+        ${{ else }}:
+          env: ${{ environment }}
+          terraformSubscriptionID: "8999dec3-0104-4a27-94ee-6588559729d1"
+
       jobs:
         - job: PlanAndApply
           steps:     
           - template: steps/terraform.yaml@cnp-azuredevops-libraries
             parameters:
               location: ${{ parameters.location }}
-              serviceConnection: "DTS-MANAGEMENT-${{ environment }}-INTSVC"
+              serviceConnection: ${{ variables.serviceConnection }}
               product: ${{ variables.product }}
               overrideAction: ${{ parameters.overrideAction }}
-              ${{ if eq(parameters['environment'], 'nonprod') }}:
-                environment: "stg"
-              ${{ else }}:
-                environment: ${{ environment }}
+              environment: ${{ variables.env }}
               component: "sendgrid"
               terraformInitSubscription: ${{ variables.terraformInitSubscription }}
               tfVarsFile: NULL
               initCommandOptions: >
                 -reconfigure
                 -var subscription_id=${{ variables.terraformSubscriptionID }}
-                -backend-config=resource_group_name=${{ variables.backendAzureRmResourceGroupName }}
               planCommandOptions: >
                 -var subscription_id=${{ variables.terraformSubscriptionID }}
-                -var env=${{ environment }}
+                -var env=${{ variables.env }}
                 -compact-warnings
                 -lock-timeout=30s
