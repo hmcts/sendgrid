@@ -96,7 +96,7 @@ stages:
               serviceConnection: "DTS-MANAGEMENT-${{ environment }}-INTSVC"
               product: ${{ variables.product }}
               overrideAction: ${{ parameters.overrideAction }}
-              ${{ if eq('parameters['environment']', 'nonprod') }}:
+              ${{ if eq(parameters['environment'], 'nonprod') }}:
                 environment: "stg"
               ${{ else }}:
                 environment: ${{ environment }}
