@@ -25,12 +25,13 @@ parameters:
       - plan
       - apply
 
-  - name: environment
-    displayName: Environments
+  - name: environment_components
     type: object
     default:
-      - nonprod
-      - prod
+      - environment: "nonprod"
+        terraformSubscriptionID: "1c4f0704-a29e-403d-b719-b90c34ef14c9"
+      - environment: "prod"
+        terraformSubscriptionID: "8999dec3-0104-4a27-94ee-6588559729d1"
 
   - name: location
     displayName: Location
@@ -75,17 +76,14 @@ stages:
               serviceConnection: 'DCD-CFT-Sandbox'
               overrideAction: ${{ parameters.overrideAction }}
 
-  - ${{ each environment in parameters.environment }}:
-    - stage: ${{ environment }}
+  - ${{ each deployment in parameters.environment_components }}:
+    - stage: ${{ deployment.environment }}
 
       variables:
-        serviceConnection: "DTS-MANAGEMENT-${{ environment }}-INTSVC"
-        ${{ if eq( '${{ environment }}', 'nonprod') }}:
+        ${{ if eq( '${{ deployment.environment }}', 'nonprod') }}:
           env: "stg"
-          terraformSubscriptionID: "1c4f0704-a29e-403d-b719-b90c34ef14c9"
         ${{ else }}:
-          env: ${{ environment }}
-          terraformSubscriptionID: "8999dec3-0104-4a27-94ee-6588559729d1"
+          env: ${{ deployment.environment }}
 
       jobs:
         - job: PlanAndApply
@@ -93,18 +91,18 @@ stages:
           - template: steps/terraform.yaml@cnp-azuredevops-libraries
             parameters:
               location: ${{ parameters.location }}
-              serviceConnection: ${{ variables.serviceConnection }}
+              serviceConnection: "DTS-MANAGEMENT-${{ deployment.environment }}-INTSVC"
               product: ${{ variables.product }}
               overrideAction: ${{ parameters.overrideAction }}
-              environment: ${{ variables.env }}
+              environment: ${{ deployment.env }}
               component: "sendgrid"
               terraformInitSubscription: ${{ variables.terraformInitSubscription }}
               tfVarsFile: NULL
               initCommandOptions: >
                 -reconfigure
-                -var subscription_id=${{ variables.terraformSubscriptionID }}
+                -var subscription_id=${{ deployment.terraformSubscriptionID }}
               planCommandOptions: >
-                -var subscription_id=${{ variables.terraformSubscriptionID }}
-                -var env=${{ variables.env }}
+                -var subscription_id=${{ deployment.terraformSubscriptionID }}
+                -var env=${{ deployment.environment }}
                 -compact-warnings
                 -lock-timeout=30s
