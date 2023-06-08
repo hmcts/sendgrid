@@ -80,7 +80,7 @@ stages:
     - stage: ${{ deployment.environment }}
 
       variables:
-        ${{ if eq( '${{ deployment.environment }}', 'nonprod') }}:
+        ${{ if eq( deployment['environment'], 'nonprod') }}:
           env: "stg"
         ${{ else }}:
           env: ${{ deployment.environment }}
