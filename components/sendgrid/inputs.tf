@@ -4,7 +4,7 @@ variable "env" {
 
 variable "subscription_id" {
   description = "SendGrid subscription id"
-  type = string
+  type        = string
 }
 
 variable "email" {
