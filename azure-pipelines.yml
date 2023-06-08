@@ -30,10 +30,10 @@ parameters:
     default:
       - environment: "nonprod"
         terraformSubscriptionID: "1c4f0704-a29e-403d-b719-b90c34ef14c9"
-        rg: "stg"
+        storageAccountEnv: "stg"
       - environment: "prod"
         terraformSubscriptionID: "8999dec3-0104-4a27-94ee-6588559729d1"
-        rg: "prod"
+        storageAccountEnv: "prod"
 
   - name: location
     displayName: Location
@@ -91,7 +91,7 @@ stages:
               serviceConnection: "DTS-MANAGEMENT-${{ deployment.environment }}-INTSVC"
               product: ${{ variables.product }}
               overrideAction: ${{ parameters.overrideAction }}
-              environment: ${{ deployment.rg }}
+              environment: ${{ deployment.storageAccountEnv }}
               component: "sendgrid"
               terraformInitSubscription: ${{ variables.terraformInitSubscription }}
               tfVarsFile: NULL

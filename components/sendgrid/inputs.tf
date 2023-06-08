@@ -2,6 +2,11 @@ variable "env" {
   description = "SendGrid Configuration"
 }
 
+variable "subscription_id" {
+  description = "SendGrid subscription id"
+  type = string
+}
+
 variable "email" {
   description = "Sendgrid account email"
   default     = "DTSPlatformOperations@justice.gov.uk"
