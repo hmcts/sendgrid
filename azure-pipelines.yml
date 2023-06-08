@@ -80,7 +80,7 @@ stages:
 
   - ${{ each deployment in parameters.environment_components }}:
     - stage: ${{ deployment.environment }}
-      displayName: Build Sendgrid ${{ deployment.environment }}
+      displayName: Sendgrid ${{ deployment.environment }}
 
       jobs:
         - job: PlanAndApply
