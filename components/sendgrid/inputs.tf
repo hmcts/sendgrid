@@ -1,3 +1,19 @@
+# General
+variable "builtFrom" {
+  type    = string
+  default = "hmcts/sendgrid"
+}
+
+variable "product" {
+  type    = string
+  default = "sendgrid"
+}
+
+variable "project" {
+  type    = string
+  default = "sendgrid"
+}
+
 variable "env" {
   description = "SendGrid Configuration"
 }
