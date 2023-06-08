@@ -30,8 +30,10 @@ parameters:
     default:
       - environment: "nonprod"
         terraformSubscriptionID: "1c4f0704-a29e-403d-b719-b90c34ef14c9"
+        rg: "stg"
       - environment: "prod"
         terraformSubscriptionID: "8999dec3-0104-4a27-94ee-6588559729d1"
+        rg: "prod"
 
   - name: location
     displayName: Location
@@ -79,11 +81,6 @@ stages:
   - ${{ each deployment in parameters.environment_components }}:
     - stage: ${{ deployment.environment }}
       displayName: Build Sendgrid ${{ deployment.environment }}
-      variables:
-        ${{ if eq( deployment['environment'], 'nonprod') }}:
-          env: "stg"
-        ${{ else }}:
-          env: ${{ deployment.environment }}
 
       jobs:
         - job: PlanAndApply
@@ -94,7 +91,7 @@ stages:
               serviceConnection: "DTS-MANAGEMENT-${{ deployment.environment }}-INTSVC"
               product: ${{ variables.product }}
               overrideAction: ${{ parameters.overrideAction }}
-              environment: "stg"
+              environment: ${{ deployment.rg }}
               component: "sendgrid"
               terraformInitSubscription: ${{ variables.terraformInitSubscription }}
               tfVarsFile: NULL
