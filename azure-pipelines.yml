@@ -60,7 +60,6 @@ variables:
     value: "04d27a32-7a07-48b3-95b8-3c8691e1a263"
   - name: action
     value: ${{ parameters.action }}
-  - template: vars/input-variables.yaml@cnp-azuredevops-libraries
   - name: backendAzureRmResourceGroupName
     ${{ if eq( parameters['environment'], 'nonprod') }}:
       value: 'azure-control-stg-rg'
@@ -69,6 +68,7 @@ variables:
       value: "1c4f0704-a29e-403d-b719-b90c34ef14c9"
     ${{ if eq( parameters['environment'], 'prod') }}:
       value: "8999dec3-0104-4a27-94ee-6588559729d1"
+  - template: vars/input-variables.yaml@cnp-azuredevops-libraries
 
 stages:
   - stage: Precheck
@@ -96,7 +96,7 @@ stages:
               serviceConnection: "DTS-MANAGEMENT-${{ environment }}-INTSVC"
               product: ${{ variables.product }}
               overrideAction: ${{ parameters.overrideAction }}
-              ${{ if eq('${{ environment }}', 'nonprod') }}:
+              ${{ if eq('parameters['environment']', 'nonprod') }}:
                 environment: "stg"
               ${{ else }}:
                 environment: ${{ environment }}
@@ -106,8 +106,9 @@ stages:
               initCommandOptions: >
                 -reconfigure
                 -var subscription_id=${{ variables.terraformSubscriptionID }}
-                -backend-config resource_group_name=$(backendAzureRmResourceGroupName)
+                -backend-config=resource_group_name=${{ variables.backendAzureRmResourceGroupName }}
               planCommandOptions: >
+                -var subscription_id=${{ variables.terraformSubscriptionID }}
                 -var env=${{ environment }}
                 -compact-warnings
                 -lock-timeout=30s
