@@ -94,7 +94,7 @@ stages:
               serviceConnection: "DTS-MANAGEMENT-${{ deployment.environment }}-INTSVC"
               product: ${{ variables.product }}
               overrideAction: ${{ parameters.overrideAction }}
-              environment: ${{ deployment.env }}
+              environment: "stg"
               component: "sendgrid"
               terraformInitSubscription: ${{ variables.terraformInitSubscription }}
               tfVarsFile: NULL
