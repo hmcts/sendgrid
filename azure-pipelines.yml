@@ -78,7 +78,7 @@ stages:
 
   - ${{ each deployment in parameters.environment_components }}:
     - stage: ${{ deployment.environment }}
-
+      displayName: Build Sendgrid ${{ deployment.environment }}
       variables:
         ${{ if eq( deployment['environment'], 'nonprod') }}:
           env: "stg"
