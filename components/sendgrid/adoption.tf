@@ -4,14 +4,14 @@ locals {
 }
 
 module "adoption" {
-  source      = "./modules/sendgrid"
-  environment = var.environment
+  source      = "../modules/sendgrid"
+  environment = var.env
   account     = "adoption"
-  domains     = var.environment == "prod" ? local.adoption_prod_domains : local.adoption_non_prod_domains
+  domains     = var.env == "prod" ? local.adoption_prod_domains : local.adoption_non_prod_domains
 }
 
 module "adoption_dns" {
-  source      = "./modules/azure_dns"
+  source      = "../modules/azure_dns"
   dns_records = module.adoption.dns_records
   zone_name   = "platform.hmcts.net"
 }

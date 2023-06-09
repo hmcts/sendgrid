@@ -4,14 +4,14 @@ locals {
 }
 
 module "nessus" {
-  source      = "./modules/sendgrid"
-  environment = var.environment
+  source      = "../modules/sendgrid"
+  environment = var.env
   account     = "nessus"
-  domains     = var.environment == "prod" ? local.nessus_prod_domains : local.nessus_non_prod_domains
+  domains     = var.env == "prod" ? local.nessus_prod_domains : local.nessus_non_prod_domains
 }
 
 module "nessus-dns" {
-  source      = "./modules/azure_dns"
+  source      = "../modules/azure_dns"
   dns_records = module.nessus.dns_records
   zone_name   = "platform.hmcts.net"
 }

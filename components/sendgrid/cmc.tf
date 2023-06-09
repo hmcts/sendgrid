@@ -4,14 +4,14 @@ locals {
 }
 
 module "cmc" {
-  source      = "./modules/sendgrid"
-  environment = var.environment
+  source      = "../modules/sendgrid"
+  environment = var.env
   account     = "cmc"
-  domains     = var.environment == "prod" ? local.cmc_prod_domains : local.cmc_non_prod_domains
+  domains     = var.env == "prod" ? local.cmc_prod_domains : local.cmc_non_prod_domains
 }
 
 module "cmc_dns" {
-  source      = "./modules/azure_dns"
+  source      = "../modules/azure_dns"
   dns_records = module.cmc.dns_records
   zone_name   = "platform.hmcts.net"
 }

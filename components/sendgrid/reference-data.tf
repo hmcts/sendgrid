@@ -4,14 +4,14 @@ locals {
 }
 
 module "reference_data" {
-  source      = "./modules/sendgrid"
-  environment = var.environment
+  source      = "../modules/sendgrid"
+  environment = var.env
   account     = "reference-data"
-  domains     = var.environment == "prod" ? local.rd_prod_domains : local.rd_non_prod_domains
+  domains     = var.env == "prod" ? local.rd_prod_domains : local.rd_non_prod_domains
 }
 
 module "reference_data_dns" {
-  source      = "./modules/azure_dns"
+  source      = "../modules/azure_dns"
   dns_records = module.reference_data.dns_records
   zone_name   = "platform.hmcts.net"
 }

@@ -1,74 +1,105 @@
-parameters:
-  - name: sendgridEnvironments
-    type: object
-    default:
-    - nonprod
-    - prod
-
-variables:
-  isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
-  location: uksouth    
-  terraformVersion: 1.2.2
-
+name: SendGrid
 trigger:
-  - master
+  batch: true
+  branches:
+    include:
+      - master
+
+resources:
+  repositories:
+  - repository: cnp-azuredevops-libraries
+    type: github
+    ref: refs/heads/master
+    name: hmcts/cnp-azuredevops-libraries
+    endpoint: 'hmcts'
 
 pool:
   vmImage: 'ubuntu-latest'
 
-stages:
-  - ${{ each environment in parameters.sendgridEnvironments }}:
-    - stage: ${{ environment }}
+parameters:
+  - name: action
+    displayName: Action
+    type: string
+    default: plan
+    values:
+      - plan
+      - apply
 
-      variables:
-        serviceConnection: dts-management-${{ environment }}-intsvc
-        resourceGroup: mgmt-state-store-${{ environment }}-rg
-        storageAccount: dtsmgmtstatestore${{ environment }}
-        container: ${{ environment }}     
+  - name: environment_components
+    type: object
+    default:
+      - environment: "nonprod"
+        terraformSubscriptionID: "1c4f0704-a29e-403d-b719-b90c34ef14c9"
+        storageAccountEnv: "stg"
+      - environment: "prod"
+        terraformSubscriptionID: "8999dec3-0104-4a27-94ee-6588559729d1"
+        storageAccountEnv: "prod"
+
+  - name: location
+    displayName: Location
+    type: string
+    default: "UK South"
+    values:
+      - "UK South"
+
+  - name: overrideAction
+    type: string
+    default: plan
+    values:
+      - plan
+      - apply
+      - destroy
+
+variables:
+  - name: timeoutInMinutes
+    value: 60
+  - name: agentPool
+    value: "ubuntu-latest"
+  - name: project
+    value: "sendgrid"
+  - name: product
+    value: "sendgrid"
+  - name: terraformInitSubscription
+    value: "04d27a32-7a07-48b3-95b8-3c8691e1a263"
+  - name: action
+    value: ${{ parameters.action }}
+  - template: vars/input-variables.yaml@cnp-azuredevops-libraries
+
+stages:
+  - stage: Precheck
+    jobs:
+      - job:
+        timeoutInMinutes: ${{ variables.timeoutInMinutes }}
+        steps:
+          - template: steps/terraform-precheck.yaml@cnp-azuredevops-libraries
+            parameters:
+              keyvaultName: 'infra-vault-nonprod'
+              keyvaultSecret: 'azure-devops-token'
+              serviceConnection: 'DCD-CFT-Sandbox'
+              overrideAction: ${{ parameters.overrideAction }}
+
+  - ${{ each deployment in parameters.environment_components }}:
+    - stage: ${{ deployment.environment }}
+      displayName: Sendgrid ${{ deployment.environment }}
 
       jobs:
         - job: PlanAndApply
           steps:     
-          - task: TerraformInstaller@0
-            displayName: Terraform install
-            inputs:
-              terraformVersion: ${{ variables.terraformVersion }}
-
-          - task: TerraformCLI@0
-            displayName: Terraform initialize
-            inputs:
-              command: init
-              workingDirectory: $(System.DefaultWorkingDirectory)/terraform
-              backendType: azurerm
-              ensurebackend: true
-              backendServiceArm: ${{ variables.serviceConnection }}
-              backendAzureRmResourceGroupName: ${{ variables.resourceGroup }}
-              backendAzureRmResourceGroupLocation: ${{ variables.location }}
-              backendAzureRmStorageAccountName: ${{ variables.storageAccount }}
-              backendAzureRmStorageAccountSku: Standard_ZRS
-              backendAzureRmContainerName: ${{ variables.container }}
-              backendAzureRmKey: SendGrid-${{ environment }}/terraform.tfstate
-
-          - task: TerraformCLI@0
-            displayName: Terraform validate
-            inputs:
-              command: validate
-              workingDirectory: $(System.DefaultWorkingDirectory)/terraform
-
-          - task: TerraformCLI@0
-            displayName: Terraform plan
-            inputs:
-              command: plan
-              workingDirectory: $(System.DefaultWorkingDirectory)/terraform
-              environmentServiceName: ${{ variables.serviceConnection }}
-              commandOptions: -var environment=${{ environment }} -out tfplan
-              publishPlanResults: $(System.StageDisplayName)
-
-          - task: TerraformCLI@0
-            displayName: Terraform apply
-            condition: and(succeeded(), eq(variables.isMain, true))
-            inputs:
-              command: apply
-              workingDirectory: $(System.DefaultWorkingDirectory)/terraform
-              environmentServiceName: ${{ variables.serviceConnection }}
-              commandOptions: tfplan
+          - template: steps/terraform.yaml@cnp-azuredevops-libraries
+            parameters:
+              location: ${{ parameters.location }}
+              serviceConnection: "DTS-MANAGEMENT-${{ deployment.environment }}-INTSVC"
+              product: ${{ variables.product }}
+              overrideAction: ${{ parameters.overrideAction }}
+              environment: ${{ deployment.storageAccountEnv }}
+              component: "sendgrid"
+              terraformInitSubscription: ${{ variables.terraformInitSubscription }}
+              tfVarsFile: NULL
+              initCommandOptions: >
+                -reconfigure
+                -var subscription_id=${{ deployment.terraformSubscriptionID }}
+              planCommandOptions: >
+                -var subscription_id=${{ deployment.terraformSubscriptionID }}
+                -var env=${{ deployment.environment }}
+                -compact-warnings
+                -lock-timeout=30s

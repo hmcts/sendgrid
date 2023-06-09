@@ -4,14 +4,14 @@ locals {
 }
 
 module "sscs" {
-  source      = "./modules/sendgrid"
-  environment = var.environment
+  source      = "../modules/sendgrid"
+  environment = var.env
   account     = "sscs"
-  domains     = var.environment == "prod" ? local.sscs_prod_domains : local.sscs_non_prod_domains
+  domains     = var.env == "prod" ? local.sscs_prod_domains : local.sscs_non_prod_domains
 }
 
 module "sscs_dns" {
-  source      = "./modules/azure_dns"
+  source      = "../modules/azure_dns"
   dns_records = module.sscs.dns_records
   zone_name   = "platform.hmcts.net"
 }

@@ -1,10 +1,31 @@
-variable "environment" {
+# General
+variable "builtFrom" {
+  type    = string
+  default = "hmcts/sendgrid"
+}
+
+variable "product" {
+  type    = string
+  default = "sendgrid"
+}
+
+variable "project" {
+  type    = string
+  default = "sendgrid"
+}
+
+variable "env" {
   description = "SendGrid Configuration"
+}
+
+variable "subscription_id" {
+  description = "SendGrid subscription id"
+  type        = string
 }
 
 variable "email" {
   description = "Sendgrid account email"
-  default = "DTSPlatformOperations@justice.gov.uk"
+  default     = "DTSPlatformOperations@justice.gov.uk"
 }
 
 locals {
