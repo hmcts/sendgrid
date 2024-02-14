@@ -1,6 +1,6 @@
 locals {
-  utiac_non_prod_domains = ["nonprod-tribunalsdecisions-utiac.service.gov.uk"]
-  utiac_prod_domains     = ["tribunalsdecisions-utiac.platform.service.gov.uk"]
+  utiac_non_prod_domains = ["mail-utiac-nonprod.platform.hmcts.net"]
+  utiac_prod_domains     = ["mail-utiac.platform.hmcts.net"]
 }
 
 module "utiac" {
@@ -13,5 +13,5 @@ module "utiac" {
 module "utiac-dns" {
   source      = "../modules/azure_dns"
   dns_records = module.utiac.dns_records
-  zone_name   = "tribunalsdecisions.service.gov.uk"
+  zone_name   = "platform.hmcts.net"
 }
