@@ -1,6 +1,6 @@
 locals {
-  utiac_non_prod_domains = ["mail-utiac-nonprod.platform.hmcts.net"]
-  utiac_prod_domains     = [""]
+  utiac_non_prod_domains = ["mail-utiac-nonprod.service.gov.uk"]
+  utiac_prod_domains     = ["mail-utiac.service.gov.uk"]
 }
 
 module "utiac" {
