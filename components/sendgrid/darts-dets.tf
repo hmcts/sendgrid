@@ -15,3 +15,8 @@ module "darts-dets-dns" {
   dns_records = module.darts-dets.dns_records
   zone_name   = "platform.hmcts.net"
 }
+
+import {
+  to = module.darts-dets.sendgrid_subuser.user
+  id = "hmcts-darts-dets-prod"
+}
