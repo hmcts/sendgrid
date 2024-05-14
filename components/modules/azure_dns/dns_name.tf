@@ -1,4 +1,3 @@
-
 resource "azurerm_dns_cname_record" "record1" {
   for_each            = var.dns_records
   resource_group_name = lower(var.dns_resource_group)
@@ -8,6 +7,7 @@ resource "azurerm_dns_cname_record" "record1" {
   ttl    = 300
   record = lookup(each.value.record1, "data")
 }
+
 resource "azurerm_dns_cname_record" "record2" {
   for_each            = var.dns_records
   resource_group_name = lower(var.dns_resource_group)
