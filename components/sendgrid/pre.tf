@@ -1,13 +1,13 @@
 locals {
-  darts_dets_non_prod_domains = ["mail-pre-nonprod.platform.hmcts.net"]
-  darts_dets_prod_domains     = ["pre-recorded-evidence.justice.gov.uk"]
+  pre_non_prod_domains = ["mail-pre-nonprod.platform.hmcts.net"]
+  pre_prod_domains     = ["pre-recorded-evidence.justice.gov.uk"]
 }
 
 module "pre" {
   source      = "../modules/sendgrid"
   environment = var.env
   account     = "pre"
-  domains     = var.env == "prod" ? local.darts_dets_prod_domains : local.darts_dets_non_prod_domains
+  domains     = var.env == "prod" ? local.pre_prod_domains : local.pre_non_prod_domains
 }
 
 module "pre-dns" {
