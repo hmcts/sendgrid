@@ -1,6 +1,6 @@
 locals {
-  dcs_non_prod_domains = ["mail-dcs-nonprod.platform.hmcts.net"]
-  dcs_prod_domains     = ["mail-dcs.platform.hmcts.net"]
+  dcs_non_prod_domains = ["mail-dcs-nonprod.platform.hmcts.net", "hmcts.net"]
+  dcs_prod_domains     = ["mail-dcs.platform.hmcts.net", "hmcts.net"]
 }
 
 module "dcs" {
@@ -8,11 +8,18 @@ module "dcs" {
   environment = var.env
   account     = "dcs"
   domains     = var.env == "prod" ? local.dcs_prod_domains : local.dcs_non_prod_domains
+  custom_dkim_selector = var.env == "prod" ? "dcs" : "dcn"
 }
 
 module "dcs-dns" {
   source      = "../modules/azure_dns"
-  dns_records = module.dcs.dns_records
+  dns_records = { for k, v in module.dcs.dns_records : k => v if k != "hmcts.net" }
   zone_name   = "platform.hmcts.net"
+}
+
+module "dcs-dns-hmcts" {
+  source      = "../modules/azure_dns"
+  dns_records = { for k, v in module.dcs.dns_records : k => v if k == "hmcts.net" }
+  zone_name   = "hmcts.net"
 }
 
