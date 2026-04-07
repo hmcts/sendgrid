@@ -95,10 +95,10 @@ stages:
               component: "sendgrid"
               terraformInitSubscription: ${{ variables.terraformInitSubscription }}
               tfVarsFile: NULL
-              initCommandOptions: >
+              initCommandOptions: >-
                 -reconfigure
                 -var subscription_id=${{ deployment.terraformSubscriptionID }}
-              planCommandOptions: >
+              planCommandOptions: >-
                 -var subscription_id=${{ deployment.terraformSubscriptionID }}
                 -var env=${{ deployment.environment }}
                 -compact-warnings
