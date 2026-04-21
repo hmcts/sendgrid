@@ -23,3 +23,10 @@ module "dcs-dns-hmcts" {
   zone_name   = "hmcts.net"
 }
 
+removed {
+  from = module.dcs.sendgrid_domain_authentication.domain-authenticate["hmcts.net"]
+
+  lifecycle {
+    destroy = false
+  }
+}
