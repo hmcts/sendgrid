@@ -22,11 +22,3 @@ module "dcs-dns-hmcts" {
   dns_records = { for k, v in module.dcs.dns_records : k => v if k == "hmcts.net" }
   zone_name   = "hmcts.net"
 }
-
-removed {
-  from = module.dcs.sendgrid_domain_authentication.domain-authenticate["hmcts.net"]
-
-  lifecycle {
-    destroy = false
-  }
-}
