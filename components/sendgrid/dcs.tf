@@ -8,7 +8,6 @@ module "dcs" {
   environment = var.env
   account     = "dcs"
   domains     = var.env == "prod" ? local.dcs_prod_domains : local.dcs_non_prod_domains
-  custom_dkim_selector = var.env == "prod" ? "dcs" : "dcn"
 }
 
 module "dcs-dns" {
