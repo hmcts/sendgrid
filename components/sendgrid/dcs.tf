@@ -4,11 +4,11 @@ locals {
 }
 
 module "dcs" {
-  source      = "../modules/sendgrid"
-  environment = var.env
-  account     = "dcs"
-  domains     = var.env == "prod" ? local.dcs_prod_domains : local.dcs_non_prod_domains
-  custom_dkim_selector = var.env == "prod" ? "dcs" : "dcn"
+  source               = "../modules/sendgrid"
+  environment          = var.env
+  account              = "dcs"
+  domains              = var.env == "prod" ? local.dcs_prod_domains : local.dcs_non_prod_domains
+  create_delay_seconds = 30
 }
 
 module "dcs-dns" {
@@ -22,4 +22,3 @@ module "dcs-dns-hmcts" {
   dns_records = { for k, v in module.dcs.dns_records : k => v if k == "hmcts.net" }
   zone_name   = "hmcts.net"
 }
-
