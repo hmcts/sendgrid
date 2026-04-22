@@ -98,13 +98,12 @@ stages:
               initCommandOptions: >-
                 -reconfigure
                 -var subscription_id=${{ deployment.terraformSubscriptionID }}
+              # -parallelism=1 to prevent triggering SendGrid rate limiting
               applyCommandOptions: >-
-                # to prevent triggering SendGrid rate limiting
                 --parallelism=1
               planCommandOptions: >-
                 -var subscription_id=${{ deployment.terraformSubscriptionID }}
                 -var env=${{ deployment.environment }}
                 -compact-warnings
                 -lock-timeout=30s
-                # to prevent triggering SendGrid rate limiting
                 -parallelism=1
