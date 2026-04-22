@@ -1,6 +1,6 @@
 locals {
-  dcs_non_prod_domains = ["mail-dcs-nonprod.platform.hmcts.net"]
-  dcs_prod_domains     = ["mail-dcs.platform.hmcts.net"]
+  dcs_non_prod_domains = ["mail-dcs-nonprod.platform.hmcts.net", "hmcts.net"]
+  dcs_prod_domains     = ["mail-dcs.platform.hmcts.net", "hmcts.net"]
 }
 
 module "dcs" {
