@@ -106,4 +106,3 @@ stages:
                 -var env=${{ deployment.environment }}
                 -compact-warnings
                 -lock-timeout=30s
-                -parallelism=1
