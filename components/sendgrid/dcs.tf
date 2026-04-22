@@ -4,10 +4,11 @@ locals {
 }
 
 module "dcs" {
-  source      = "../modules/sendgrid"
-  environment = var.env
-  account     = "dcs"
-  domains     = var.env == "prod" ? local.dcs_prod_domains : local.dcs_non_prod_domains
+  source               = "../modules/sendgrid"
+  environment.         = var.env
+  account              = "dcs"
+  domains              = var.env == "prod" ? local.dcs_prod_domains : local.dcs_non_prod_domains
+  create_delay_seconds = 30
 }
 
 module "dcs-dns" {

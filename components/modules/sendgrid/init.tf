@@ -6,6 +6,10 @@ terraform {
       source  = "anna-money/sendgrid"
       version = "1.0.5"
     }
+    time = {
+      source  = "hashicorp/time"
+      version = "~> 0.9"
+    }
   }
 }
 

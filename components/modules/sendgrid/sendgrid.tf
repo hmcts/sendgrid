@@ -55,6 +55,14 @@ resource "sendgrid_api_key" "subuser" {
   ]
 }
 
+resource "time_sleep" "wait_before_domain_auth" {
+  count           = var.create_delay_seconds > 0 ? 1 : 0
+  create_duration = "${var.create_delay_seconds}s"
+  depends_on = [
+    sendgrid_api_key.subuser
+  ]
+}
+
 resource "sendgrid_domain_authentication" "domain-authenticate" {
   for_each             = toset(var.domains)
   provider             = sendgrid.subuser
@@ -62,7 +70,8 @@ resource "sendgrid_domain_authentication" "domain-authenticate" {
   is_default           = true
   automatic_security   = true
   custom_dkim_selector = var.custom_dkim_selector
-  depends_on = [
-    sendgrid_api_key.subuser
-  ]
+  depends_on = concat(
+    [sendgrid_api_key.subuser],
+    var.create_delay_seconds > 0 ? [time_sleep.wait_before_domain_auth[0]] : []
+  )
 }
